@@ -5,7 +5,7 @@ A Chess Game made with JavaFX and Java.
 William Perryman and Edwin Barrack
 
 # Class Overview
-
+    
 ## Board
 - Manages a 2D array of Piece objects (`Piece[8][8]`).
 - Provides methods to initialize the board with the default chess setup.
