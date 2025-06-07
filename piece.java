@@ -1,4 +1,5 @@
 /*
+ * Edwin
  * Piece.java (Abstract)
  * Base class for all chess pieces.
  * Stores piece color and position.

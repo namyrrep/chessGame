@@ -1,4 +1,5 @@
 /*
+ * Both People
  * GameController.java
  * Manages the overall game state, turn order, and rule enforcement.
  * Detects check, checkmate, stalemate, and draw.
