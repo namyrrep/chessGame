@@ -4,7 +4,3 @@
  * Responsible for initializing the board with the default chess setup,
  * updating board state, and providing methods to query or modify the board.
  */
-public int board()
-{
-    return 0;
-}
