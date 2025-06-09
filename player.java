@@ -5,3 +5,52 @@
  * Stores player color (enum), turn status, and references to their pieces and captured pieces.
  * (Optional) Can include player profile information.
  */
+import java.util.ArrayList;
+import java.util.List;
+
+
+ public class player {
+
+    //Enumerator for player color, basically just a way to keep track of which player is which
+    public enum PlayerColor {
+        WHITE, BLACK
+    }
+    
+    private PlayerColor color; // Player's color
+    private boolean isTurn; // Indicates if it's this player's turn
+    private List<Piece> activePieces;      // Pieces currently on the board
+    private List<Piece> capturedPieces;    // Pieces this player has captured
+    private String name;                   // (Optional) Player name
+    public player(PlayerColor color) {
+        this.color = color;
+        this.isTurn = false; // Default to not being the first turn
+        this.piecesCaptured = 0; // Start with no captured pieces
+    }
+
+    
+    public PlayerColor getColor() { return color; }
+    public void setColor(PlayerColor color) { this.color = color; }
+
+    public boolean isTurn() { return isTurn; }
+    public void setTurn(boolean isTurn) { this.isTurn = isTurn; }
+
+    public List<Piece> getActivePieces() { return activePieces; }
+    public List<Piece> getCapturedPieces() { return capturedPieces; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public void addActivePiece(Piece piece) { activePieces.add(piece); }
+    public void removeActivePiece(Piece piece) { activePieces.remove(piece); }
+    public void addCapturedPiece(Piece piece) { capturedPieces.add(piece); }
+
+    // Example: Get all possible moves for this player
+    public List<Move> getAllPossibleMoves(Board board) {
+        List<Move> moves = new ArrayList<>();
+        for (Piece piece : activePieces) {
+            moves.addAll(piece.getPossibleMoves(board));
+        }
+        return moves;
+    }
+
+ }
