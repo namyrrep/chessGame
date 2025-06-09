@@ -21,10 +21,12 @@ import java.util.List;
     private List<Piece> activePieces;      // Pieces currently on the board
     private List<Piece> capturedPieces;    // Pieces this player has captured
     private String name;                   // (Optional) Player name
-    public player(PlayerColor color) {
+    public Player(PlayerColor color, String name) {
         this.color = color;
-        this.isTurn = false; // Default to not being the first turn
-        this.piecesCaptured = 0; // Start with no captured pieces
+        this.isTurn = false;
+        this.activePieces = new ArrayList<>();
+        this.capturedPieces = new ArrayList<>();
+        this.name = name;
     }
 
     
