@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
- public class player {
+ public class Player {
 
     //Enumerator for player color, basically just a way to keep track of which player is which
     public enum PlayerColor {
@@ -54,5 +54,17 @@ import java.util.List;
         }
         return moves;
     }
+    // Overrides toString method and prints out
+    @Override
+    public String toString() {
+        return "Player{" +
+                "color=" + color +
+                ", isTurn=" + isTurn +
+                ", activePieces=" + activePieces.size() +
+                ", capturedPieces=" + capturedPieces.size() +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
 
  }
