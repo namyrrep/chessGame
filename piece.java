@@ -21,4 +21,11 @@ public class Piece
     {
         return color;
     }
+
+    //This method is overridden for all subclasses of Piece. Returns an array of possible moves.
+    //This is the possibleMove method used for the King class.
+    public void possibleMove()
+    {
+        
+    }
 }
