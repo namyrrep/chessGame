@@ -15,8 +15,25 @@ public class Bishop extends Piece
     @Override
     public int[][] possibleMove()
     {
+        //Initialize variables
         int[] currentPosition = {this.getX(), this.getY()};
+        int[][] possibleMoves;
+        int possibleMovesIndex = 0;
+        int changingX = currentPosition[0];
+        int changingY = currentPosition[1];
 
-        
+        //Adds possible moves in the left and up direction
+        while(changingX > 0 && changingY > 0)
+        {
+            changingX++;
+            changingY++;
+
+            //Checks if the Piece at position is the same color.
+
+            //Checks if the Piece at position is the oposite color.
+
+            //If there is nothing at position
+            
+        }
     }
 }
