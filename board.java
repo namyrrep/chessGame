@@ -19,26 +19,26 @@ public class Board {
         // Initialize pieces for both players
         // Example: Place pawns, rooks, knights, bishops, queen, and king
         for (int i = 0; i < 8; i++) {
-            Gameboard[1][i] = new Pawn(Player.PlayerColor.WHITE); // White pawns
-            Gameboard[6][i] = new Pawn(Player.PlayerColor.BLACK); // Black pawns
+            Gameboard[1][i] = new Pawn(Player.PlayerColor.WHITE, i, 1); // White pawns
+            Gameboard[6][i] = new Pawn(Player.PlayerColor.BLACK, i, 6); // Black pawns
         }
-        Gameboard[0][0] = new Rook(Player.PlayerColor.WHITE);
-        Gameboard[0][1] = new Knight(Player.PlayerColor.WHITE);
-        Gameboard[0][2] = new Bishop(Player.PlayerColor.WHITE);
-        Gameboard[0][3] = new Queen(Player.PlayerColor.WHITE);
-        Gameboard[0][4] = new King(Player.PlayerColor.WHITE);
-        Gameboard[0][5] = new Bishop(Player.PlayerColor.WHITE);
-        Gameboard[0][6] = new Knight(Player.PlayerColor.WHITE);
-        Gameboard[0][7] = new Rook(Player.PlayerColor.WHITE);
+        Gameboard[0][0] = new Rook(Player.PlayerColor.WHITE, 0, 0);
+        Gameboard[0][1] = new Knight(Player.PlayerColor.WHITE, 1, 0);
+        Gameboard[0][2] = new Bishop(Player.PlayerColor.WHITE, 2, 0);
+        Gameboard[0][3] = new Queen(Player.PlayerColor.WHITE, 3, 0);
+        Gameboard[0][4] = new King(Player.PlayerColor.WHITE, 4, 0);
+        Gameboard[0][5] = new Bishop(Player.PlayerColor.WHITE, 5, 0);
+        Gameboard[0][6] = new Knight(Player.PlayerColor.WHITE, 6, 0);
+        Gameboard[0][7] = new Rook(Player.PlayerColor.WHITE, 7, 0);
 
-        Gameboard[7][0] = new Rook(Player.PlayerColor.BLACK);
-        Gameboard[7][1] = new Knight(Player.PlayerColor.BLACK);
-        Gameboard[7][2] = new Bishop(Player.PlayerColor.BLACK);
-        Gameboard[7][3] = new Queen(Player.PlayerColor.BLACK);
-        Gameboard[7][4] = new King(Player.PlayerColor.BLACK);
-        Gameboard[7][5] = new Bishop(Player.PlayerColor.BLACK);
-        Gameboard[7][6] = new Knight(Player.PlayerColor.BLACK);
-        Gameboard[7][7] = new Rook(Player.PlayerColor.BLACK);
+        Gameboard[7][0] = new Rook(Player.PlayerColor.BLACK, 0, 7);
+        Gameboard[7][1] = new Knight(Player.PlayerColor.BLACK, 1, 7);
+        Gameboard[7][2] = new Bishop(Player.PlayerColor.BLACK, 2, 7);
+        Gameboard[7][3] = new Queen(Player.PlayerColor.BLACK, 3, 7);
+        Gameboard[7][4] = new King(Player.PlayerColor.BLACK, 4, 7);
+        Gameboard[7][5] = new Bishop(Player.PlayerColor.BLACK, 5, 7);
+        Gameboard[7][6] = new Knight(Player.PlayerColor.BLACK, 6, 7);
+        Gameboard[7][7] = new Rook(Player.PlayerColor.BLACK, 7, 7);
 
     }
     public Piece getPiece(int row, int col) {

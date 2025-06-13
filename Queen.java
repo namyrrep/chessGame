@@ -4,14 +4,16 @@
 public class Queen extends Piece
 {
     //This is the constructor for the Queen class. 
-    public Queen(Player.PlayerColor pieceColor)
+    public Queen(Player.PlayerColor pieceColor, int x, int y)
     {
         this.setColor(pieceColor);
+        this.setX(x);
+        this.setY(y);
     }
 
     //This is the overridden possibleMove method for the Queen class.
     @Override
-    public void possibleMove()
+    public int[][] possibleMove()
     {
         
     }
