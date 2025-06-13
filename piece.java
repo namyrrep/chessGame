@@ -176,7 +176,7 @@ public class Piece
         return possibleMoves;
     }
 
-        //Adds possible moves in the down and left direction to the possibleMoves ArrayList.
+    //Adds possible moves in the down and left direction to the possibleMoves ArrayList.
     public ArrayList<int[]> downLeft(ArrayList<int[]> currentMoves, int maxDistance, Board board)
     {
         //Sets the return List to the parameterized list, 
@@ -218,9 +218,169 @@ public class Piece
         return possibleMoves;
     }
 
+    //Adds possible moves in the right direction to the possibleMoves ArrayList.
+    public ArrayList<int[]> left(ArrayList<int[]> currentMoves, int maxDistance, Board board)
+    {
+        //Sets the return List to the parameterized list, 
+        //this allows me to add arrays to list outside the method. 
+        ArrayList<int[]> possibleMoves = currentMoves;
+        int changingX = xCordinate;
+
+        while(changingX > 0 && changingX > changingX - maxDistance)
+        {
+            //This will not affect the outside variables
+            changingX--;
+            
+            //Runs isChecked() in case the King is already in check,
+            //or if the current move would put the King in check. 
+            if (board.isChecked())
+            {
+                continue;
+            }
+
+            Piece checkPiece = board.getPiece(yCordinate, changingX);
+            
+            //If there is nothing at position
+            if (checkPiece.equals(null))
+            {
+                possibleMoves.add(new int[]{changingX, yCordinate});
+                continue;
+            }
+            //Checks if the Piece at position is the same color.
+            else if (checkPiece.getColor().equals(this.getColor()))
+            {
+                break;
+            }
+            //If the Piece at position is the oposite color.
+            possibleMoves.add(new int[]{changingX, yCordinate});
+            break;
+        }
+        return possibleMoves;
+    }
+
+    //Adds possible moves in the right direction to the possibleMoves ArrayList.
+    public ArrayList<int[]> right(ArrayList<int[]> currentMoves, int maxDistance, Board board)
+    {
+        //Sets the return List to the parameterized list, 
+        //this allows me to add arrays to list outside the method. 
+        ArrayList<int[]> possibleMoves = currentMoves;
+        int changingX = xCordinate;
+
+        while(changingX < 7 && changingX < changingX + maxDistance)
+        {
+            //This will not affect the outside variables
+            changingX--;
+            
+            //Runs isChecked() in case the King is already in check,
+            //or if the current move would put the King in check. 
+            if (board.isChecked())
+            {
+                continue;
+            }
+
+            Piece checkPiece = board.getPiece(yCordinate, changingX);
+            
+            //If there is nothing at position
+            if (checkPiece.equals(null))
+            {
+                possibleMoves.add(new int[]{changingX, yCordinate});
+                continue;
+            }
+            //Checks if the Piece at position is the same color.
+            else if (checkPiece.getColor().equals(this.getColor()))
+            {
+                break;
+            }
+            //If the Piece at position is the oposite color.
+            possibleMoves.add(new int[]{changingX, yCordinate});
+            break;
+        }
+        return possibleMoves;
+    }
+
+    //Adds possible moves in the up direction to the possibleMoves ArrayList.
+    public ArrayList<int[]> up(ArrayList<int[]> currentMoves, int maxDistance, Board board)
+    {
+        //Sets the return List to the parameterized list, 
+        //this allows me to add arrays to list outside the method. 
+        ArrayList<int[]> possibleMoves = currentMoves;
+        int changingY = yCordinate;
+
+        while(changingY > 0 && changingY > changingY - maxDistance)
+        {
+            //This will not affect the outside variables
+            changingY--;
+            
+            //Runs isChecked() in case the King is already in check,
+            //or if the current move would put the King in check. 
+            if (board.isChecked())
+            {
+                continue;
+            }
+
+            Piece checkPiece = board.getPiece(changingY, xCordinate);
+            
+            //If there is nothing at position
+            if (checkPiece.equals(null))
+            {
+                possibleMoves.add(new int[]{xCordinate, changingY});
+                continue;
+            }
+            //Checks if the Piece at position is the same color.
+            else if (checkPiece.getColor().equals(this.getColor()))
+            {
+                break;
+            }
+            //If the Piece at position is the oposite color.
+            possibleMoves.add(new int[]{xCordinate, changingY});
+            break;
+        }
+        return possibleMoves;
+    }
+
+    //Adds possible moves in the down direction to the possibleMoves ArrayList.
+    public ArrayList<int[]> down(ArrayList<int[]> currentMoves, int maxDistance, Board board)
+    {
+        //Sets the return List to the parameterized list, 
+        //this allows me to add arrays to list outside the method. 
+        ArrayList<int[]> possibleMoves = currentMoves;
+        int changingY = yCordinate;
+
+        while(changingY < 7 && changingY < changingY + maxDistance)
+        {
+            //This will not affect the outside variables
+            changingY--;
+            
+            //Runs isChecked() in case the King is already in check,
+            //or if the current move would put the King in check. 
+            if (board.isChecked())
+            {
+                continue;
+            }
+
+            Piece checkPiece = board.getPiece(changingY, xCordinate);
+            
+            //If there is nothing at position
+            if (checkPiece.equals(null))
+            {
+                possibleMoves.add(new int[]{xCordinate, changingY});
+                continue;
+            }
+            //Checks if the Piece at position is the same color.
+            else if (checkPiece.getColor().equals(this.getColor()))
+            {
+                break;
+            }
+            //If the Piece at position is the oposite color.
+            possibleMoves.add(new int[]{xCordinate, changingY});
+            break;
+        }
+        return possibleMoves;
+    }
+
     //This method is overridden for all subclasses of Piece. Returns an array of possible moves.
     //This is the possibleMove method used for the King class.
-    public int[][] possibleMove()
+    public ArrayList<int[]> possibleMove()
     {
         
     }
