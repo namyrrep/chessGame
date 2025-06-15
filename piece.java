@@ -382,6 +382,18 @@ public class Piece
     //This is the possibleMove method used for the King class.
     public ArrayList<int[]> possibleMove()
     {
-        
+        ArrayList<int[]> possibleMoves = new ArrayList<>();
+
+        //Adds all possibleMoves for the King to the returned ArrayList.
+        possibleMoves = upLeft(possibleMoves, 1, board);
+        possibleMoves = up(possibleMoves, 1, board);
+        possibleMoves = upRight(possibleMoves, 1, board);
+        possibleMoves = right(possibleMoves, 1, board);
+        possibleMoves = downRight(possibleMoves, 1, board);
+        possibleMoves = down(possibleMoves, 1, board);
+        possibleMoves = downLeft(possibleMoves, 1, board);
+        possibleMoves = left(possibleMoves, 1, board);
+
+        return possibleMoves;
     }
 }

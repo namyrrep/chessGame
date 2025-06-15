@@ -18,7 +18,7 @@ public class Bishop extends Piece
     {
         ArrayList<int[]> possibleMoves = new ArrayList<>();
 
-        //Adds all possibleMoves to the returned ArrayList<int[]>.
+        //Adds all possibleMoves for the Bishop to the returned ArrayList<int[]>.
         possibleMoves = upLeft(possibleMoves, 7, board);
         possibleMoves = upRight(possibleMoves, 7, board);
         possibleMoves = downRight(possibleMoves, 7, board);

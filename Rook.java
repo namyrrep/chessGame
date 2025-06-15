@@ -18,7 +18,7 @@ public class Rook extends Piece
     {
         ArrayList<int[]> possibleMoves = new ArrayList<>();
 
-        //Adds all possibleMoves to the returned ArrayList<int[]>.
+        //Adds all possibleMoves for the Rook to the returned ArrayList<int[]>.
         possibleMoves = left(possibleMoves, 7, board);
         possibleMoves = right(possibleMoves, 7, board);
         possibleMoves = up(possibleMoves, 7, board);
