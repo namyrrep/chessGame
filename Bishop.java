@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 /*
  * This is the Bishop class that stores all information about the Bishop Piece.
  */
@@ -13,27 +14,16 @@ public class Bishop extends Piece
 
     //This is the overridden possibleMove method for the Bishop class.
     @Override
-    public int[][] possibleMove()
+    public ArrayList<int[]> possibleMove()
     {
-        //Initialize variables
-        int[] currentPosition = {this.getX(), this.getY()};
-        int[][] possibleMoves;
-        int possibleMovesIndex = 0;
-        int changingX = currentPosition[0];
-        int changingY = currentPosition[1];
+        ArrayList<int[]> possibleMoves = new ArrayList<>();
 
-        //Adds possible moves in the left and up direction
-        while(changingX > 0 && changingY > 0)
-        {
-            changingX++;
-            changingY++;
+        //Adds all possibleMoves for the Bishop to the returned ArrayList<int[]>.
+        possibleMoves = upLeft(possibleMoves, 7, board);
+        possibleMoves = upRight(possibleMoves, 7, board);
+        possibleMoves = downRight(possibleMoves, 7, board);
+        possibleMoves = downLeft(possibleMoves, 7, board);
 
-            //Checks if the Piece at position is the same color.
-
-            //Checks if the Piece at position is the oposite color.
-
-            //If there is nothing at position
-            
-        }
+        return possibleMoves;
     }
 }

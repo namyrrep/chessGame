@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 /*
  * This is the Knight class that stores all information about the Knight Piece.
  */
@@ -13,7 +14,7 @@ public class Knight extends Piece
 
     //This is the overridden possibleMove method for the Knight class.
     @Override
-    public int[][] possibleMove()
+    public ArrayList<int[]> possibleMove()
     {
         
     }
