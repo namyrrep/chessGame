@@ -19,10 +19,10 @@ public class Bishop extends Piece
         ArrayList<int[]> possibleMoves = new ArrayList<>();
 
         //Adds all possibleMoves for the Bishop to the returned ArrayList<int[]>.
-        possibleMoves = upLeft(possibleMoves, 7, board);
-        possibleMoves = upRight(possibleMoves, 7, board);
-        possibleMoves = downRight(possibleMoves, 7, board);
-        possibleMoves = downLeft(possibleMoves, 7, board);
+        possibleMoves = upLeft(possibleMoves, 7, xCordinate, yCordinate, board);
+        possibleMoves = upRight(possibleMoves, 7, xCordinate, yCordinate, board);
+        possibleMoves = downRight(possibleMoves, 7, xCordinate, yCordinate, board);
+        possibleMoves = downLeft(possibleMoves, 7, xCordinate, yCordinate, board);
 
         return possibleMoves;
     }

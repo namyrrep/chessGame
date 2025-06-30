@@ -51,13 +51,13 @@ public class Piece
     }
 
     //Adds possible moves in the up and left direction to the possibleMoves ArrayList.
-    public ArrayList<int[]> upLeft(ArrayList<int[]> currentMoves, int maxDistance, Board board)
+    public ArrayList<int[]> upLeft(ArrayList<int[]> currentMoves, int maxDistance, int x, int y, Board board)
     {
         //Sets the return List to the parameterized list, 
         //this allows me to add arrays to list outside the method. 
         ArrayList<int[]> possibleMoves = currentMoves;
-        int changingX = xCordinate;
-        int changingY = yCordinate;
+        int changingX = x;
+        int changingY = y;
 
         while((changingX > 0 && changingX > changingX - maxDistance) && (changingY > 0 && changingY > changingY - maxDistance))
         {
@@ -93,13 +93,13 @@ public class Piece
     }
 
     //Adds possible moves in the up and right direction to the possibleMoves ArrayList.
-    public ArrayList<int[]> upRight(ArrayList<int[]> currentMoves, int maxDistance, Board board)
+    public ArrayList<int[]> upRight(ArrayList<int[]> currentMoves, int maxDistance, int x, int y, Board board)
     {
         //Sets the return List to the parameterized list, 
         //this allows me to add arrays to list outside the method. 
         ArrayList<int[]> possibleMoves = currentMoves;
-        int changingX = xCordinate;
-        int changingY = yCordinate;
+        int changingX = x;
+        int changingY = y;
 
         while((changingX < 7 && changingX < changingX + maxDistance) && (changingY > 0 && changingY > changingY - maxDistance))
         {
@@ -135,13 +135,13 @@ public class Piece
     }
 
     //Adds possible moves in the down and right direction to the possibleMoves ArrayList.
-    public ArrayList<int[]> downRight(ArrayList<int[]> currentMoves, int maxDistance, Board board)
+    public ArrayList<int[]> downRight(ArrayList<int[]> currentMoves, int maxDistance, int x, int y, Board board)
     {
         //Sets the return List to the parameterized list, 
         //this allows me to add arrays to list outside the method. 
         ArrayList<int[]> possibleMoves = currentMoves;
-        int changingX = xCordinate;
-        int changingY = yCordinate;
+        int changingX = x;
+        int changingY = y;
 
         while((changingX < 7 && changingX < changingX + maxDistance) && (changingY < 7 && changingY < changingY + maxDistance))
         {
@@ -177,13 +177,13 @@ public class Piece
     }
 
     //Adds possible moves in the down and left direction to the possibleMoves ArrayList.
-    public ArrayList<int[]> downLeft(ArrayList<int[]> currentMoves, int maxDistance, Board board)
+    public ArrayList<int[]> downLeft(ArrayList<int[]> currentMoves, int maxDistance, int x, int y, Board board)
     {
         //Sets the return List to the parameterized list, 
         //this allows me to add arrays to list outside the method. 
         ArrayList<int[]> possibleMoves = currentMoves;
-        int changingX = xCordinate;
-        int changingY = yCordinate;
+        int changingX = x;
+        int changingY = y;
 
         while((changingX > 0 && changingX > changingX - maxDistance) && (changingY < 7 && changingY < changingY + maxDistance))
         {
@@ -385,13 +385,13 @@ public class Piece
         ArrayList<int[]> possibleMoves = new ArrayList<>();
 
         //Adds all possibleMoves for the King to the returned ArrayList.
-        possibleMoves = upLeft(possibleMoves, 1, board);
+        possibleMoves = upLeft(possibleMoves, 1, xCordinate, yCordinate, board);
         possibleMoves = up(possibleMoves, 1, board);
-        possibleMoves = upRight(possibleMoves, 1, board);
+        possibleMoves = upRight(possibleMoves, 1, xCordinate, yCordinate, board);
         possibleMoves = right(possibleMoves, 1, board);
-        possibleMoves = downRight(possibleMoves, 1, board);
+        possibleMoves = downRight(possibleMoves, 1, xCordinate, yCordinate, board);
         possibleMoves = down(possibleMoves, 1, board);
-        possibleMoves = downLeft(possibleMoves, 1, board);
+        possibleMoves = downLeft(possibleMoves, 1, xCordinate, yCordinate, board);
         possibleMoves = left(possibleMoves, 1, board);
 
         return possibleMoves;

@@ -19,13 +19,13 @@ public class Queen extends Piece
         ArrayList<int[]> possibleMoves = new ArrayList<>();
 
         //Adds all possibleMoves for the Queen to the returned ArrayList.
-        possibleMoves = upLeft(possibleMoves, 7, board);
+        possibleMoves = upLeft(possibleMoves, 7, xCordinate, yCordinate, board);
         possibleMoves = up(possibleMoves, 7, board);
-        possibleMoves = upRight(possibleMoves, 7, board);
+        possibleMoves = upRight(possibleMoves, 7, xCordinate, yCordinate, board);
         possibleMoves = right(possibleMoves, 7, board);
-        possibleMoves = downRight(possibleMoves, 7, board);
+        possibleMoves = downRight(possibleMoves, 7, xCordinate, yCordinate, board);
         possibleMoves = down(possibleMoves, 7, board);
-        possibleMoves = downLeft(possibleMoves, 7, board);
+        possibleMoves = downLeft(possibleMoves, 7, xCordinate, yCordinate, board);
         possibleMoves = left(possibleMoves, 7, board);
 
         return possibleMoves;

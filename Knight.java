@@ -16,6 +16,34 @@ public class Knight extends Piece
     @Override
     public ArrayList<int[]> possibleMove()
     {
-        
+        ArrayList<int[]> possibleMoves = new ArrayList<>();
+
+        //Goes through the four different move sections (those with the same x or y cordinates).
+        //Top Moves:
+        if (yCordinate > 1)
+        {
+            possibleMoves = upLeft(possibleMoves, 1, xCordinate, yCordinate - 1, board);
+            possibleMoves = upRight(possibleMoves, 1, xCordinate, yCordinate - 1, board);
+        }
+        //Right Moves:
+        if (xCordinate < 6)
+        {
+            possibleMoves = upRight(possibleMoves, 1, xCordinate + 1, yCordinate, board);
+            possibleMoves = downRight(possibleMoves, 1, xCordinate + 1, yCordinate, board);
+        }
+        //Bottom Moves:
+        if (yCordinate < 6)
+        {
+            possibleMoves = downLeft(possibleMoves, 1, xCordinate, yCordinate + 1, board);
+            possibleMoves = downRight(possibleMoves, 1, xCordinate, yCordinate + 1, board);
+        }
+        //Left Moves:
+        if (xCordinate > 1)
+        {
+            possibleMoves = upLeft(possibleMoves, 1, xCordinate - 1, yCordinate, board);
+            possibleMoves = downLeft(possibleMoves, 1, xCordinate - 1, yCordinate, board);
+        }       
+         
+        return possibleMoves;
     }
 }

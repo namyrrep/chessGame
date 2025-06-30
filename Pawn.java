@@ -63,12 +63,12 @@ public class Pawn extends Piece
         if (board.getPiece((this.getX()-1), (this.getY()-1)) || (board.getPiece((this.getX()-1), this.getY()).getColor().equals(Player.PlayerColor.BLACK) 
                                                              && this.getY() == 3 && board.getPiece((this.getX()-1), this.getY()).getSecondMove().isTrue()))
         {
-            upLeft(possibleMoves, 1, board);
+            upLeft(possibleMoves, 1, xCordinate, yCordinate, board);
         }
         if (board.getPiece((this.getX()+1), (this.getY()-1)) || (board.getPiece((this.getX()+1), this.getY()).getColor().equals(Player.PlayerColor.BLACK) 
                                                              && this.getY() == 3 && board.getPiece((this.getX()+1), this.getY()).getSecondMove().isTrue()))
         {
-            upRight(possibleMoves, 1, board);
+            upRight(possibleMoves, 1, xCordinate, yCordinate, board);
         }
     }
 }
