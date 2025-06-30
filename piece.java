@@ -378,6 +378,13 @@ public class Piece
         return possibleMoves;
     }
 
+    //This method is overridden for classes that use the firstMove field.
+    //Returns falso if not overridden (not used within that class).
+    public boolean getFirstMove()
+    {
+        return false;
+    }
+
     //This method is overridden for all subclasses of Piece. Returns an array of possible moves.
     //This is the possibleMove method used for the King class.
     public ArrayList<int[]> possibleMove()

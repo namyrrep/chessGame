@@ -19,6 +19,7 @@ public class Pawn extends Piece
     }
     
     //This is the getter method for firstMove.
+    @Override
     public boolean getFirstMove()
     {
         return firstMove;

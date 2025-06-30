@@ -4,12 +4,28 @@ import java.util.ArrayList;
  */
 public class Rook extends Piece
 {
+    //This will be used to check if the castle option is a possible move.
+    boolean firstMove = true;
+
     //This is the constructor for the Rook class. 
     public Rook(Player.PlayerColor pieceColor, int x, int y)
     {
         this.setColor(pieceColor);
         this.setX(x);
         this.setY(y);
+    }
+
+    //This is the getter method for firstMove
+    @Override
+    public boolean getFirstMove()
+    {
+        return firstMove;
+    }
+
+    //This is the setter method for firstMove.
+    public void setFirstMove(boolean newMove)
+    {
+        firstMove = newMove;
     }
 
     //This is the overridden possibleMove method for the Rook class.
