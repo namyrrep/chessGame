@@ -111,8 +111,8 @@ public class Board {
     private boolean isUnderAttack(Piece piece) {
         Player.PlayerColor opponentColor = (piece.getColor() == Player.PlayerColor.WHITE)
                 ? Player.PlayerColor.BLACK : Player.PlayerColor.WHITE;
-        int targetRow = piece.getRow();
-        int targetCol = piece.getCol();
+        int targetRow = piece.getX();
+        int targetCol = piece.getY();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Piece attacker = Gameboard[i][j];
