@@ -14,7 +14,7 @@ public class Knight extends Piece
 
     //This is the overridden possibleMove method for the Knight class.
     @Override
-    public ArrayList<int[]> possibleMove()
+    public ArrayList<int[]> possibleMove(Board board)
     {
         ArrayList<int[]> possibleMoves = new ArrayList<>();
 
@@ -45,5 +45,12 @@ public class Knight extends Piece
         }       
          
         return possibleMoves;
+    }
+
+    //This is the getSymbol method for the Knight subclass.
+    @Override
+    public char getSymbol()
+    {
+        return 'k';
     }
 }

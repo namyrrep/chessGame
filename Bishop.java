@@ -14,7 +14,7 @@ public class Bishop extends Piece
 
     //This is the overridden possibleMove method for the Bishop class.
     @Override
-    public ArrayList<int[]> possibleMove()
+    public ArrayList<int[]> possibleMove(Board board)
     {
         ArrayList<int[]> possibleMoves = new ArrayList<>();
 
@@ -25,5 +25,12 @@ public class Bishop extends Piece
         possibleMoves = downLeft(possibleMoves, 7, xCordinate, yCordinate, board);
 
         return possibleMoves;
+    }
+
+    //This is the getSymbol method for the Bishop subclass.
+    @Override
+    public char getSymbol()
+    {
+        return 'B';
     }
 }

@@ -1,5 +1,3 @@
-import java.awt.Color;
-import java.lang.classfile.attribute.BootstrapMethodsAttribute;
 import java.util.ArrayList;
 /*
  * This is the Pawn class that stores all information about the Pawn Piece.
@@ -45,7 +43,7 @@ public class Pawn extends Piece
 
     //This is the overridden possibleMove method for the Pawn class.
     @Override
-    public ArrayList<int[]> possibleMove()
+    public ArrayList<int[]> possibleMove(Board board)
     {
         ArrayList<int[]> possibleMoves = new ArrayList<>();
         
@@ -71,5 +69,14 @@ public class Pawn extends Piece
         {
             upRight(possibleMoves, 1, xCordinate, yCordinate, board);
         }
+
+        return possibleMoves;
+    }
+
+    //This is the getSymbol method for the Pawn subclass.
+    @Override
+    public char getSymbol()
+    {
+        return 'P';
     }
 }

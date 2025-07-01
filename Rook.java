@@ -30,7 +30,7 @@ public class Rook extends Piece
 
     //This is the overridden possibleMove method for the Rook class.
     @Override
-    public ArrayList<int[]> possibleMove()
+    public ArrayList<int[]> possibleMove(Board board)
     {
         ArrayList<int[]> possibleMoves = new ArrayList<>();
 
@@ -41,5 +41,12 @@ public class Rook extends Piece
         possibleMoves = down(possibleMoves, 7, board);
 
         return possibleMoves;
+    }
+
+    //This is the getSymbol method for the Rook subclass.
+    @Override
+    public char getSymbol()
+    {
+        return 'R';
     }
 }

@@ -30,7 +30,7 @@ public class King extends Piece
 
     //This is the possibleMove method used for the King class.
     @Override
-    public ArrayList<int[]> possibleMove()
+    public ArrayList<int[]> possibleMove(Board board)
     {
         ArrayList<int[]> possibleMoves = new ArrayList<>();
 
@@ -53,15 +53,21 @@ public class King extends Piece
                 if (board.getPiece(0, 0).getFirstMove())
                 {
                     //Checks if there are any Pieces between King and Rook
-
-                    //Adds possible move
+                    if (board.getPiece(0, 1) == null && board.getPiece(0, 2) == null && board.getPiece(0, 3) == null)
+                    {
+                        //Adds possible move
+                        possibleMoves.add(new int[]{2, 0});
+                    }
                 }
                 //King side castle (right)
                 if (board.getPiece(0, 7).getFirstMove())
                 {
                     //Checks if there are any Pieces between King and Rook
-
-                    //Adds possible move
+                    if (board.getPiece(0, 5) == null && board.getPiece(0, 6) == null)
+                    {
+                        //Adds possible move
+                        possibleMoves.add(new int[]{6, 0});
+                    }
                 }
 
             }
@@ -75,19 +81,32 @@ public class King extends Piece
                 if (board.getPiece(7, 7).getFirstMove())
                 {
                     //Checks if there are any Pieces between King and Rook
-
-                    //Adds possible move
+                    if (board.getPiece(7, 6) == null && board.getPiece(7, 5) == null && board.getPiece(7, 4) == null)
+                    {
+                        //Adds possible move
+                        possibleMoves.add(new int[]{7, 5});
+                    }
                 }
                 //King side castle (left)
                 if (board.getPiece(7, 0).getFirstMove())
                 {
                     //Checks if there are any Pieces between King and Rook
-
-                    //Adds possible move
+                    if (board.getPiece(7, 1) == null && board.getPiece(7, 2) == null)
+                    {
+                        //Adds possible move
+                        possibleMoves.add(new int[]{7, 1});
+                    }
                 }
             }
         }
 
         return possibleMoves;
+    }
+
+    //This is the getSymbol method for the King subclass.
+    @Override
+    public char getSymbol()
+    {
+        return 'K';
     }
 }

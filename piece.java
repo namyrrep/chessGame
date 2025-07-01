@@ -67,7 +67,7 @@ public class Piece
             
             //Runs isChecked() in case the King is already in check,
             //or if the current move would put the King in check. 
-            if (board.isChecked())
+            if (board.isChecked(color))
             {
                 continue;
             }
@@ -75,7 +75,7 @@ public class Piece
             Piece checkPiece = board.getPiece(changingY, changingX);
             
             //If there is nothing at position
-            if (checkPiece.equals(null))
+            if (checkPiece == null)
             {
                 possibleMoves.add(new int[]{changingX, changingY});
                 continue;
@@ -109,7 +109,7 @@ public class Piece
             
             //Runs isChecked() in case the King is already in check,
             //or if the current move would put the King in check. 
-            if (board.isChecked())
+            if (board.isChecked(color))
             {
                 continue;
             }
@@ -117,7 +117,7 @@ public class Piece
             Piece checkPiece = board.getPiece(changingY, changingX);
             
             //If there is nothing at position
-            if (checkPiece.equals(null))
+            if (checkPiece == null)
             {
                 possibleMoves.add(new int[]{changingX, changingY});
                 continue;
@@ -151,7 +151,7 @@ public class Piece
             
             //Runs isChecked() in case the King is already in check,
             //or if the current move would put the King in check. 
-            if (board.isChecked())
+            if (board.isChecked(color))
             {
                 continue;
             }
@@ -159,7 +159,7 @@ public class Piece
             Piece checkPiece = board.getPiece(changingY, changingX);
             
             //If there is nothing at position
-            if (checkPiece.equals(null))
+            if (checkPiece == null)
             {
                 possibleMoves.add(new int[]{changingX, changingY});
                 continue;
@@ -193,7 +193,7 @@ public class Piece
             
             //Runs isChecked() in case the King is already in check,
             //or if the current move would put the King in check. 
-            if (board.isChecked())
+            if (board.isChecked(color))
             {
                 continue;
             }
@@ -201,7 +201,7 @@ public class Piece
             Piece checkPiece = board.getPiece(changingY, changingX);
             
             //If there is nothing at position
-            if (checkPiece.equals(null))
+            if (checkPiece == null)
             {
                 possibleMoves.add(new int[]{changingX, changingY});
                 continue;
@@ -233,7 +233,7 @@ public class Piece
             
             //Runs isChecked() in case the King is already in check,
             //or if the current move would put the King in check. 
-            if (board.isChecked())
+            if (board.isChecked(color))
             {
                 continue;
             }
@@ -241,7 +241,7 @@ public class Piece
             Piece checkPiece = board.getPiece(yCordinate, changingX);
             
             //If there is nothing at position
-            if (checkPiece.equals(null))
+            if (checkPiece == null)
             {
                 possibleMoves.add(new int[]{changingX, yCordinate});
                 continue;
@@ -273,7 +273,7 @@ public class Piece
             
             //Runs isChecked() in case the King is already in check,
             //or if the current move would put the King in check. 
-            if (board.isChecked())
+            if (board.isChecked(color))
             {
                 continue;
             }
@@ -281,7 +281,7 @@ public class Piece
             Piece checkPiece = board.getPiece(yCordinate, changingX);
             
             //If there is nothing at position
-            if (checkPiece.equals(null))
+            if (checkPiece == null)
             {
                 possibleMoves.add(new int[]{changingX, yCordinate});
                 continue;
@@ -313,7 +313,7 @@ public class Piece
             
             //Runs isChecked() in case the King is already in check,
             //or if the current move would put the King in check. 
-            if (board.isChecked())
+            if (board.isChecked(color))
             {
                 continue;
             }
@@ -321,7 +321,7 @@ public class Piece
             Piece checkPiece = board.getPiece(changingY, xCordinate);
             
             //If there is nothing at position
-            if (checkPiece.equals(null))
+            if (checkPiece == null)
             {
                 possibleMoves.add(new int[]{xCordinate, changingY});
                 continue;
@@ -353,7 +353,7 @@ public class Piece
             
             //Runs isChecked() in case the King is already in check,
             //or if the current move would put the King in check. 
-            if (board.isChecked())
+            if (board.isChecked(color))
             {
                 continue;
             }
@@ -361,7 +361,7 @@ public class Piece
             Piece checkPiece = board.getPiece(changingY, xCordinate);
             
             //If there is nothing at position
-            if (checkPiece.equals(null))
+            if (checkPiece == null)
             {
                 possibleMoves.add(new int[]{xCordinate, changingY});
                 continue;
@@ -386,21 +386,14 @@ public class Piece
     }
 
     //This method is overridden for all subclasses of Piece. Returns an array of possible moves.
-    //This is the possibleMove method used for the King class.
-    public ArrayList<int[]> possibleMove()
+    public ArrayList<int[]> possibleMove(Board board)
     {
-        ArrayList<int[]> possibleMoves = new ArrayList<>();
+        return null;
+    }
 
-        //Adds all possibleMoves for the King to the returned ArrayList.
-        possibleMoves = upLeft(possibleMoves, 1, xCordinate, yCordinate, board);
-        possibleMoves = up(possibleMoves, 1, board);
-        possibleMoves = upRight(possibleMoves, 1, xCordinate, yCordinate, board);
-        possibleMoves = right(possibleMoves, 1, board);
-        possibleMoves = downRight(possibleMoves, 1, xCordinate, yCordinate, board);
-        possibleMoves = down(possibleMoves, 1, board);
-        possibleMoves = downLeft(possibleMoves, 1, xCordinate, yCordinate, board);
-        possibleMoves = left(possibleMoves, 1, board);
-
-        return possibleMoves;
+    //This is the getter method for the symbol field. It is overridden for all subclasses of Piece.
+    public char getSymbol()
+    {
+        return ' ';
     }
 }
