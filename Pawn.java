@@ -30,6 +30,7 @@ public class Pawn extends Piece
     }
 
     //This is the getter method for secondMove;
+    @Override
     public boolean getSecondMove()
     {
         return secondMove;
@@ -50,7 +51,7 @@ public class Pawn extends Piece
         //Allows the pawn to go forward 2 spaces if it has not moved yet, 1 space otherwise.
         if (firstMove)
         {
-            if (this.getColor() == Player.PlayerColor.WHITE || board.getFlip())
+            if (this.getColor() == Player.PlayerColor.WHITE || (this.getColor() == Player.PlayerColor.BLACK && board.getFlip()))
             {
                 possibleMoves = up(possibleMoves, 2, board);
             }
@@ -61,7 +62,7 @@ public class Pawn extends Piece
         }
         else
         {
-            if (this.getColor() == Player.PlayerColor.WHITE || board.getFlip())
+            if (this.getColor() == Player.PlayerColor.WHITE || (this.getColor() == Player.PlayerColor.BLACK && board.getFlip()))
             {
                 possibleMoves = up(possibleMoves, 1, board);
             }
@@ -73,17 +74,32 @@ public class Pawn extends Piece
         
         //Checks if there is a piece it the Pawns take range upLeft, or upRight.
         //Also checks if enpassent applies
-        if (board.getPiece((this.getX()-1), (this.getY()-1)) || (board.getPiece((this.getX()-1), this.getY()).getColor().equals(Player.PlayerColor.BLACK) 
-                                                             && this.getY() == 3 && board.getPiece((this.getX()-1), this.getY()).getSecondMove().isTrue()))
+        if (this.getColor() == Player.PlayerColor.WHITE || (this.getColor() == Player.PlayerColor.BLACK && board.getFlip()))
         {
-            upLeft(possibleMoves, 1, xCordinate, yCordinate, board);
+            if (board.getPiece((this.getX()-1), (this.getY()-1)).getColor() != this.getColor() || (board.getPiece((this.getX()-1), this.getY()).getColor() != this.getColor() 
+                                                                            && this.getY() == 3 && board.getPiece((this.getX()-1), this.getY()).getSecondMove() == true))
+            {
+                possibleMoves = upLeft(possibleMoves, 1, xCordinate, yCordinate, board);
+            }
+            if (board.getPiece((this.getX()+1), (this.getY()-1)).getColor() != this.getColor() || (board.getPiece((this.getX()+1), this.getY()).getColor() != this.getColor() 
+                                                                            && this.getY() == 3 && board.getPiece((this.getX()+1), this.getY()).getSecondMove() == true))
+            {
+                possibleMoves = upRight(possibleMoves, 1, xCordinate, yCordinate, board);
+            }
         }
-        if (board.getPiece((this.getX()+1), (this.getY()-1)) || (board.getPiece((this.getX()+1), this.getY()).getColor().equals(Player.PlayerColor.BLACK) 
-                                                             && this.getY() == 3 && board.getPiece((this.getX()+1), this.getY()).getSecondMove().isTrue()))
+        else
         {
-            upRight(possibleMoves, 1, xCordinate, yCordinate, board);
+            if (board.getPiece((this.getX()-1), (this.getY()+1)).getColor() != this.getColor() || (board.getPiece((this.getX()-1), this.getY()).getColor() != this.getColor() 
+                                                                            && this.getY() == 4 && board.getPiece((this.getX()-1), this.getY()).getSecondMove() == true))
+            {
+                possibleMoves = downLeft(possibleMoves, 1, xCordinate, yCordinate, board);
+            }
+            if (board.getPiece((this.getX()+1), (this.getY()+1)).getColor() != this.getColor() || (board.getPiece((this.getX()+1), this.getY()).getColor() != this.getColor() 
+                                                                            && this.getY() == 4 && board.getPiece((this.getX()+1), this.getY()).getSecondMove() == true))
+            {
+                possibleMoves = downRight(possibleMoves, 1, xCordinate, yCordinate, board);
+            }
         }
-
         return possibleMoves;
     }
 

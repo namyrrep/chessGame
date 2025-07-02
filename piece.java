@@ -396,4 +396,10 @@ public class Piece
     {
         return ' ';
     }
+
+    //This is the getter method for the second move (Only used in Pawn Class, false if not a Pawn))
+    public boolean getSecondMove()
+    {
+        return false;
+    }
 }
