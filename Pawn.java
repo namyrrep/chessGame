@@ -50,11 +50,25 @@ public class Pawn extends Piece
         //Allows the pawn to go forward 2 spaces if it has not moved yet, 1 space otherwise.
         if (firstMove)
         {
-            up(possibleMoves, 2, board);
+            if (this.getColor() == Player.PlayerColor.WHITE || board.getFlip())
+            {
+                possibleMoves = up(possibleMoves, 2, board);
+            }
+            else
+            {
+                possibleMoves = down(possibleMoves, 2, board);
+            }
         }
         else
         {
-            up(possibleMoves, 1, board);
+            if (this.getColor() == Player.PlayerColor.WHITE || board.getFlip())
+            {
+                possibleMoves = up(possibleMoves, 1, board);
+            }
+            else
+            {
+                possibleMoves = down(possibleMoves, 1, board);
+            }
         }
         
         //Checks if there is a piece it the Pawns take range upLeft, or upRight.

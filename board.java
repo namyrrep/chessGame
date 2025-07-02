@@ -9,6 +9,7 @@
 public class Board {
 
     Piece[][] Gameboard; // 2D array representing the chess board
+    boolean flip = false; // Whether or not the board has been flipped
 
     public Board() {
         Gameboard = new Piece[8][8]; // Initialize the board with 8x8 size
@@ -125,5 +126,17 @@ public class Board {
             }
         }
         return false;
+    }
+
+    //This allows for other classes to see whether the board is fliped or not.
+    public boolean getFlip()
+    {
+        return flip;
+    }
+
+    //This allows for other classes to flip the board.
+    public void flipped()
+    {
+        flip = !flip;
     }
 }
