@@ -402,4 +402,22 @@ public class Piece
     {
         return false;
     }
+
+     /**
+     * Checks if moving this piece to (targetRow, targetCol) is valid according to chess rules.
+     * This checks if the move is in the piece's possible moves.
+     * @param targetRow The row to move to.
+     * @param targetCol The column to move to.
+     * @param board The current board state.
+     * @return true if the move is valid, false otherwise.
+     */
+    public boolean isValidMove(int targetRow, int targetCol, Board board) {
+        ArrayList<int[]> moves = this.possibleMove(board);
+        for (int[] move : moves) {
+            if (move[0] == targetRow && move[1] == targetCol) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

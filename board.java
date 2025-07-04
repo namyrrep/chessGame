@@ -8,8 +8,8 @@
 
 public class Board {
 
-    Piece[][] Gameboard; // 2D array representing the chess board
-    boolean flip = false; // Whether or not the board has been flipped
+    private Piece[][] Gameboard; // 2D array representing the chess board
+    private boolean flip = false; // Whether or not the board has been flipped
 
     public Board() {
         Gameboard = new Piece[8][8]; // Initialize the board with 8x8 size
@@ -86,9 +86,9 @@ public class Board {
     //It will go through the board and see if either player is in check
     public boolean isChecked(Player.PlayerColor color) {
         // Check if the specified player is in check
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Piece piece = Gameboard[i][j];
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Piece piece = Gameboard[row][col];
                 if (piece != null && piece.getColor() == color) {
                     // Check if the piece can be attacked by any opponent's piece
                     if (isUnderAttack(piece)) {
@@ -112,14 +112,14 @@ public class Board {
     private boolean isUnderAttack(Piece piece) {
         Player.PlayerColor opponentColor = (piece.getColor() == Player.PlayerColor.WHITE)
                 ? Player.PlayerColor.BLACK : Player.PlayerColor.WHITE;
-        int targetRow = piece.getX();
-        int targetCol = piece.getY();
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Piece attacker = Gameboard[i][j];
+        int targetRow = piece.getY();
+        int targetCol = piece.getX();
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Piece attacker = Gameboard[row][col];
                 // Check if this is an opponent's piece and if it can move to the target square
                 if (attacker != null && attacker.getColor() == opponentColor) {
-                    if (attacker.isValidMove(targetRow, targetCol, this)) {
+                    if (attacker.isValidMove(targetCol, targetRow, this)) {
                         return true;
                     }
                 }
