@@ -14,9 +14,9 @@ public class Knight extends Piece
 
     //This is the overridden possibleMove method for the Knight class.
     @Override
-    public ArrayList<int[]> possibleMove(Board board)
+    public ArrayList<String> possibleMove(Board board)
     {
-        ArrayList<int[]> possibleMoves = new ArrayList<>();
+        ArrayList<String> possibleMoves = new ArrayList<>();
 
         //Goes through the four different move sections (those with the same x or y cordinates).
         //Top Moves:

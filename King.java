@@ -30,9 +30,9 @@ public class King extends Piece
 
     //This is the possibleMove method used for the King class.
     @Override
-    public ArrayList<int[]> possibleMove(Board board)
+    public ArrayList<String> possibleMove(Board board)
     {
-        ArrayList<int[]> possibleMoves = new ArrayList<>();
+        ArrayList<String> possibleMoves = new ArrayList<>();
 
         //Adds all possibleMoves for the King to the returned ArrayList.
         possibleMoves = upLeft(possibleMoves, 1, xCordinate, yCordinate, board);

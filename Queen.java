@@ -14,9 +14,9 @@ public class Queen extends Piece
 
     //This is the overridden possibleMove method for the Queen class.
     @Override
-    public ArrayList<int[]> possibleMove(Board board)
+    public ArrayList<String> possibleMove(Board board)
     {
-        ArrayList<int[]> possibleMoves = new ArrayList<>();
+        ArrayList<String> possibleMoves = new ArrayList<>();
 
         //Adds all possibleMoves for the Queen to the returned ArrayList.
         possibleMoves = upLeft(possibleMoves, 7, xCordinate, yCordinate, board);

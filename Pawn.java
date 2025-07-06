@@ -44,9 +44,9 @@ public class Pawn extends Piece
 
     //This is the overridden possibleMove method for the Pawn class.
     @Override
-    public ArrayList<int[]> possibleMove(Board board)
+    public ArrayList<String> possibleMove(Board board)
     {
-        ArrayList<int[]> possibleMoves = new ArrayList<>();
+        ArrayList<String> possibleMoves = new ArrayList<>();
         
         //Allows the pawn to go forward 2 spaces if it has not moved yet, 1 space otherwise.
         if (firstMove)

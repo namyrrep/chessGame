@@ -30,9 +30,9 @@ public class Rook extends Piece
 
     //This is the overridden possibleMove method for the Rook class.
     @Override
-    public ArrayList<int[]> possibleMove(Board board)
+    public ArrayList<String> possibleMove(Board board)
     {
-        ArrayList<int[]> possibleMoves = new ArrayList<>();
+        ArrayList<String> possibleMoves = new ArrayList<>();
 
         //Adds all possibleMoves for the Rook to the returned ArrayList<int[]>.
         possibleMoves = left(possibleMoves, 7, board);
