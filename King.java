@@ -56,7 +56,7 @@ public class King extends Piece
                     if (board.getPiece(0, 1) == null && board.getPiece(0, 2) == null && board.getPiece(0, 3) == null)
                     {
                         //Adds possible move
-                        possibleMoves.add(new int[]{2, 0});
+                        possibleMoves.add("0-0-0");
                     }
                 }
                 //King side castle (right)
@@ -66,7 +66,7 @@ public class King extends Piece
                     if (board.getPiece(0, 5) == null && board.getPiece(0, 6) == null)
                     {
                         //Adds possible move
-                        possibleMoves.add(new int[]{6, 0});
+                        possibleMoves.add("0-0");
                     }
                 }
 
@@ -84,7 +84,7 @@ public class King extends Piece
                     if (board.getPiece(7, 6) == null && board.getPiece(7, 5) == null && board.getPiece(7, 4) == null)
                     {
                         //Adds possible move
-                        possibleMoves.add(new int[]{7, 5});
+                        possibleMoves.add("0-0-0");
                     }
                 }
                 //King side castle (left)
@@ -94,7 +94,7 @@ public class King extends Piece
                     if (board.getPiece(7, 1) == null && board.getPiece(7, 2) == null)
                     {
                         //Adds possible move
-                        possibleMoves.add(new int[]{7, 1});
+                        possibleMoves.add("0-0");
                     }
                 }
             }
