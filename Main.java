@@ -26,9 +26,10 @@ public class Main {
         }
 
         if (mode.equals("ai")) {
-            System.out.println("AI mode is not yet implemented. Exiting.");
-            scanner.close();
-            return;
+            // Remove the exit so AI mode is playable
+            // System.out.println("AI mode is not yet implemented. Exiting.");
+            // scanner.close();
+            // return;
         }
 
         Player player1 = new Player(Player.PlayerColor.WHITE, "White");

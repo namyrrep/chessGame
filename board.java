@@ -57,6 +57,8 @@ public class Board {
         Gameboard[row][col] = piece; // Place the piece on the board
     }
     public void printBoard() {
+        // Show piece legend at the top
+        System.out.println("White: K Q R N B P   Black: k q r n b p");
         // Print column labels at the top
         System.out.print("  ");
         for (char c = 'a'; c <= 'h'; c++) {

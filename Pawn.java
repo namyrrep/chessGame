@@ -18,9 +18,9 @@ public class Pawn extends Piece {
         ArrayList<String> moves = new ArrayList<>();
         int x = getX();
         int y = getY();
-        // Fix: White moves "up" (increasing y), Black moves "down" (decreasing y)
-        int direction = (getColor() == Player.PlayerColor.WHITE) ? 1 : -1;
-        int startRow = (getColor() == Player.PlayerColor.WHITE) ? 1 : 6;
+        // Fix: White moves "up" (decreasing y), Black moves "down" (increasing y)
+        int direction = (getColor() == Player.PlayerColor.WHITE) ? -1 : 1;
+        int startRow = (getColor() == Player.PlayerColor.WHITE) ? 6 : 1;
 
         int ny = y + direction;
         if (board.isInBounds(ny, x) && board.getPiece(ny, x) == null) {
