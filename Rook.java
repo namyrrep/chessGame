@@ -45,8 +45,7 @@ public class Rook extends Piece
 
     //This is the getSymbol method for the Rook subclass.
     @Override
-    public char getSymbol()
-    {
-        return 'R';
+    public char getSymbol() {
+        return symbolForColor('R');
     }
 }

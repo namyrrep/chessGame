@@ -2,11 +2,9 @@ import java.util.ArrayList;
 /*
  * This is the Knight class that stores all information about the Knight Piece.
  */
-public class Knight extends Piece
-{
+public class Knight extends Piece {
     //This is the constructor for the Knight class.
-    public Knight(Player.PlayerColor pieceColor, int x, int y)
-    {
+    public Knight(Player.PlayerColor pieceColor, int x, int y) {
         this.setColor(pieceColor);
         this.setX(x);
         this.setY(y);
@@ -14,43 +12,40 @@ public class Knight extends Piece
 
     //This is the overridden possibleMove method for the Knight class.
     @Override
-    public ArrayList<String> possibleMove(Board board)
-    {
-        ArrayList<String> possibleMoves = new ArrayList<>();
-
-        //Goes through the four different move sections (those with the same x or y cordinates).
-        //Top Moves:
-        if (yCordinate > 1)
-        {
-            possibleMoves = upLeft(possibleMoves, 1, xCordinate, yCordinate - 1, board);
-            possibleMoves = upRight(possibleMoves, 1, xCordinate, yCordinate - 1, board);
+    public ArrayList<String> possibleMove(Board board) {
+        ArrayList<String> moves = new ArrayList<>();
+        int[][] offsets = {
+            {2, 1}, {1, 2}, {-1, 2}, {-2, 1},
+            {-2, -1}, {-1, -2}, {1, -2}, {2, -1}
+        };
+        int x = getX();
+        int y = getY();
+        for (int[] offset : offsets) {
+            int nx = x + offset[0];
+            int ny = y + offset[1];
+            if (board.isInBounds(ny, nx)) {
+                Piece target = board.getPiece(ny, nx);
+                if (target == null || target.getColor() != this.getColor()) {
+                    char fromFile = (char)('a' + x);
+                    char fromRank = (char)('8' - y);
+                    char toFile = (char)('a' + nx);
+                    char toRank = (char)('8' - ny);
+                    if (target == null) {
+                        moves.add("" + getSymbol() + fromFile + fromRank + toFile + toRank);
+                    } else {
+                        moves.add("" + getSymbol() + fromFile + fromRank + 'x' + toFile + toRank);
+                    }
+                }
+            }
         }
-        //Right Moves:
-        if (xCordinate < 6)
-        {
-            possibleMoves = upRight(possibleMoves, 1, xCordinate + 1, yCordinate, board);
-            possibleMoves = downRight(possibleMoves, 1, xCordinate + 1, yCordinate, board);
-        }
-        //Bottom Moves:
-        if (yCordinate < 6)
-        {
-            possibleMoves = downLeft(possibleMoves, 1, xCordinate, yCordinate + 1, board);
-            possibleMoves = downRight(possibleMoves, 1, xCordinate, yCordinate + 1, board);
-        }
-        //Left Moves:
-        if (xCordinate > 1)
-        {
-            possibleMoves = upLeft(possibleMoves, 1, xCordinate - 1, yCordinate, board);
-            possibleMoves = downLeft(possibleMoves, 1, xCordinate - 1, yCordinate, board);
-        }       
-         
-        return possibleMoves;
+        return moves;
     }
 
+    
     //This is the getSymbol method for the Knight subclass.
     @Override
     public char getSymbol()
     {
-        return 'k';
+        return symbolForColor('N');
     }
 }

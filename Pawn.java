@@ -2,111 +2,65 @@ import java.util.ArrayList;
 /*
  * This is the Pawn class that stores all information about the Pawn Piece.
  */
-public class Pawn extends Piece
-{   
-    //true if the pawn has not moved yet.
+public class Pawn extends Piece {
     boolean firstMove = true;
-    boolean secondMove = false;
 
     //This is the constructor for the Pawn class.
-    public Pawn(Player.PlayerColor pieceColor, int x, int y)
-    {
+    public Pawn(Player.PlayerColor pieceColor, int x, int y) {
         this.setColor(pieceColor);
         this.setX(x);
         this.setY(y);
     }
-    
-    //This is the getter method for firstMove.
-    @Override
-    public boolean getFirstMove()
-    {
-        return firstMove;
-    }
-
-    //This is the setter method for firstMove.
-    public void setFirstMove(boolean newMove)
-    {
-        firstMove = newMove;
-    }
-
-    //This is the getter method for secondMove;
-    @Override
-    public boolean getSecondMove()
-    {
-        return secondMove;
-    }
-
-    //This is the setter method for secondMove.
-    public void setSecondMove(boolean newMove)
-    {
-        secondMove = newMove;
-    }
 
     //This is the overridden possibleMove method for the Pawn class.
     @Override
-    public ArrayList<String> possibleMove(Board board)
-    {
-        ArrayList<String> possibleMoves = new ArrayList<>();
-        
-        //Allows the pawn to go forward 2 spaces if it has not moved yet, 1 space otherwise.
-        if (firstMove)
-        {
-            if (this.getColor() == Player.PlayerColor.WHITE || (this.getColor() == Player.PlayerColor.BLACK && board.getFlip()))
-            {
-                possibleMoves = up(possibleMoves, 2, board);
-            }
-            else
-            {
-                possibleMoves = down(possibleMoves, 2, board);
-            }
-        }
-        else
-        {
-            if (this.getColor() == Player.PlayerColor.WHITE || (this.getColor() == Player.PlayerColor.BLACK && board.getFlip()))
-            {
-                possibleMoves = up(possibleMoves, 1, board);
-            }
-            else
-            {
-                possibleMoves = down(possibleMoves, 1, board);
+    public ArrayList<String> possibleMove(Board board) {
+        ArrayList<String> moves = new ArrayList<>();
+        int x = getX();
+        int y = getY();
+        // Fix: White moves "up" (increasing y), Black moves "down" (decreasing y)
+        int direction = (getColor() == Player.PlayerColor.WHITE) ? 1 : -1;
+        int startRow = (getColor() == Player.PlayerColor.WHITE) ? 1 : 6;
+
+        int ny = y + direction;
+        if (board.isInBounds(ny, x) && board.getPiece(ny, x) == null) {
+            moves.add("" + getSymbol() + (char)('a' + x) + (char)('8' - y) + (char)('a' + x) + (char)('8' - ny));
+            // Double move from starting position and only if firstMove is true
+            if (y == startRow && firstMove) {
+                int nny = y + 2 * direction;
+                if (board.isInBounds(nny, x) && board.getPiece(nny, x) == null) {
+                    moves.add("" + getSymbol() + (char)('a' + x) + (char)('8' - y) + (char)('a' + x) + (char)('8' - nny));
+                }
             }
         }
-        
-        //Checks if there is a piece it the Pawns take range upLeft, or upRight.
-        //Also checks if enpassent applies
-        if (this.getColor() == Player.PlayerColor.WHITE || (this.getColor() == Player.PlayerColor.BLACK && board.getFlip()))
-        {
-            if (board.getPiece((this.getX()-1), (this.getY()-1)).getColor() != this.getColor() || (board.getPiece((this.getX()-1), this.getY()).getColor() != this.getColor() 
-                                                                            && this.getY() == 3 && board.getPiece((this.getX()-1), this.getY()).getSecondMove() == true))
-            {
-                possibleMoves = upLeft(possibleMoves, 1, xCordinate, yCordinate, board);
-            }
-            if (board.getPiece((this.getX()+1), (this.getY()-1)).getColor() != this.getColor() || (board.getPiece((this.getX()+1), this.getY()).getColor() != this.getColor() 
-                                                                            && this.getY() == 3 && board.getPiece((this.getX()+1), this.getY()).getSecondMove() == true))
-            {
-                possibleMoves = upRight(possibleMoves, 1, xCordinate, yCordinate, board);
+        // Captures
+        for (int dx = -1; dx <= 1; dx += 2) {
+            int nx = x + dx;
+            if (board.isInBounds(ny, nx)) {
+                Piece target = board.getPiece(ny, nx);
+                if (target != null && target.getColor() != this.getColor()) {
+                    moves.add("" + getSymbol() + (char)('a' + x) + (char)('8' - y) + 'x' + (char)('a' + nx) + (char)('8' - ny));
+                }
             }
         }
-        else
-        {
-            if (board.getPiece((this.getX()-1), (this.getY()+1)).getColor() != this.getColor() || (board.getPiece((this.getX()-1), this.getY()).getColor() != this.getColor() 
-                                                                            && this.getY() == 4 && board.getPiece((this.getX()-1), this.getY()).getSecondMove() == true))
-            {
-                possibleMoves = downLeft(possibleMoves, 1, xCordinate, yCordinate, board);
-            }
-            if (board.getPiece((this.getX()+1), (this.getY()+1)).getColor() != this.getColor() || (board.getPiece((this.getX()+1), this.getY()).getColor() != this.getColor() 
-                                                                            && this.getY() == 4 && board.getPiece((this.getX()+1), this.getY()).getSecondMove() == true))
-            {
-                possibleMoves = downRight(possibleMoves, 1, xCordinate, yCordinate, board);
-            }
-        }
-        return possibleMoves;
+        // TODO: Add en passant and promotion logic if needed
+        return moves;
     }
 
     //This is the getSymbol method for the Pawn subclass.
     @Override
-    public char getSymbol()
-    {
-        return 'P';
+    public char getSymbol() {
+        return symbolForColor('P');
+    }
+
+    //This is the getter method for firstMove.
+    @Override
+    public boolean getFirstMove() {
+        return firstMove;
+    }
+
+    //This is the setter method for firstMove.
+    public void setFirstMove(boolean newMove) {
+        firstMove = newMove;
     }
 }

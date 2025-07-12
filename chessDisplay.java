@@ -1,7 +1,9 @@
 /*
  *  Both people working on display
  * ChessDisplay.java
- * Handles the JavaFX user interface for the chess game.
- * Initializes and displays the board, manages user input, highlights possible moves,
- * updates the UI based on game state, and connects UI actions to the GameController.
+ * Handles the user interface for the chess game.
+ * (Currently unused, as the game is CLI-based.)
  */
+public class ChessDisplay {
+    // No implementation needed for CLI version
+}
