@@ -64,8 +64,17 @@ public class Main {
                 boolean helper = true;
                 while (helper)
                 {
-                    System.out.print("Enter your move (e.g., e2e4), get possible moves (e.g., e2), or 'exit': ");
+                    System.out.print("Enter your move (e.g., e2e4), get possible moves (e.g., e2), 'flip', or 'exit': ");
                     input = scanner.nextLine().trim();
+
+                    if (input.equalsIgnoreCase("flip")) 
+                    {
+                        controller.getBoard().flipped();
+                        System.out.println("Board has been flipped.");
+                        //printBoard() acts defirently when flipped.
+                        controller.getBoard().printBoard();
+                        continue;
+                    }
 
                     if (input.length() != 2)
                     {
@@ -79,13 +88,13 @@ public class Main {
 
                     if (possibleMoves.isEmpty())
                     {
-                        System.out.println("No possible moves");
+                        System.out.println("No possible moves.");
                         continue;
                     }
 
                     for (int i = 0; i < possibleMoves.size(); i++)
                     {
-                        System.out.println("" + possibleMoves.get(i) + " ");
+                        System.out.println("" + possibleMoves.get(i));
                     }
                 }
 
