@@ -36,9 +36,9 @@ public class Board {
         Gameboard[7][0] = new Rook(Player.PlayerColor.WHITE, 0, 7);
         Gameboard[7][1] = new Knight(Player.PlayerColor.WHITE, 1, 7);
         Gameboard[7][2] = new Bishop(Player.PlayerColor.WHITE, 2, 7);
-        Gameboard[7][3] = new Queen(Player.PlayerColor.WHITE, 3, 7);
-        King whiteKing = new King(Player.PlayerColor.WHITE, 4, 7);
-        Gameboard[7][4] = whiteKing;
+        King whiteKing = new King(Player.PlayerColor.WHITE, 3, 7);
+        Gameboard[7][3] = whiteKing;
+        Gameboard[7][4] = new Queen(Player.PlayerColor.WHITE, 4, 7);
         Gameboard[7][5] = new Bishop(Player.PlayerColor.WHITE, 5, 7);
         Gameboard[7][6] = new Knight(Player.PlayerColor.WHITE, 6, 7);
         Gameboard[7][7] = new Rook(Player.PlayerColor.WHITE, 7, 7);
@@ -65,8 +65,8 @@ public class Board {
             System.out.print(c + " ");
         }
         System.out.println();
-        for (int i = 7; i >= 0; i--) { // Print from row 7 (top) to row 0 (bottom)
-            System.out.print((i + 1) + " "); // Row label on the left
+        for (int i = 0; i < 8; i++) { // Print from row 7 (top) to row 0 (bottom)
+            System.out.print((8 - i) + " "); // Row label on the left
             for (int j = 0; j < 8; j++) {
                 if (Gameboard[i][j] == null) {
                     System.out.print(". "); // Empty square
@@ -74,7 +74,7 @@ public class Board {
                     System.out.print(Gameboard[i][j].getSymbol() + " "); // Piece symbol
                 }
             }
-            System.out.println((i + 1)); // Row label on the right
+            System.out.println((8 - i)); // Row label on the right
         }
         // Print column labels at the bottom
         System.out.print("  ");

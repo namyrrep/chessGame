@@ -5,6 +5,7 @@
  * Launches the application and starts the game.
  */
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -59,8 +60,34 @@ public class Main {
                 controller.makeMove(move[0], move[1], move[2], move[3]);
             } else {
                 // Human's turn
-                System.out.print("Enter your move (e.g., e2e4) or 'exit': ");
-                String input = scanner.nextLine().trim();
+                String input = "";
+                boolean helper = true;
+                while (helper)
+                {
+                    System.out.print("Enter your move (e.g., e2e4), get possible moves (e.g., e2), or 'exit': ");
+                    input = scanner.nextLine().trim();
+
+                    if (input.length() != 2)
+                    {
+                        break;
+                    }
+
+                    int possibleCol = input.charAt(0) - 'a';
+                    int possibleRow = 8 - (input.charAt(1) - '0');
+
+                    ArrayList<String> possibleMoves = controller.getBoard().getPiece(possibleRow, possibleCol).possibleMove(controller.getBoard());
+
+                    if (possibleMoves.isEmpty())
+                    {
+                        System.out.println("No possible moves");
+                        continue;
+                    }
+
+                    for (int i = 0; i < possibleMoves.size(); i++)
+                    {
+                        System.out.println("" + possibleMoves.get(i) + " ");
+                    }
+                }
 
                 if (input.equalsIgnoreCase("exit")) {
                     System.out.println("Game exited.");
