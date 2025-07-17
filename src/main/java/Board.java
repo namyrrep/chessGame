@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Stack;
+
 /*
  * Will
  * Board.java
@@ -10,9 +13,46 @@ public class Board {
 
     private Piece[][] Gameboard; // 2D array representing the chess board
     private boolean flip = false; // Whether or not the board has been flipped
+    private ArrayList<String> moveHistory;
+    private Stack<MoveRecord> moveRecords;
+    // Track en passant target square
+    private int enPassantTargetRow = -1;
+    private int enPassantTargetCol = -1;
+
+    // Class to store move information for undo feature
+    private class MoveRecord {
+        Piece movedPiece;
+        Piece capturedPiece;
+        int fromRow;
+        int fromCol;
+        int toRow;
+        int toCol;
+        boolean wasFirstMove;
+        boolean wasSecondMove;
+        int prevEnPassantRow;
+        int prevEnPassantCol;
+
+        public MoveRecord(Piece moved, Piece captured,
+                          int fromR, int fromC, int toR, int toC,
+                          boolean wasFirst, boolean wasSecond,
+                          int prevEpRow, int prevEpCol) {
+            this.movedPiece = moved;
+            this.capturedPiece = captured;
+            this.fromRow = fromR;
+            this.fromCol = fromC;
+            this.toRow = toR;
+            this.toCol = toC;
+            this.wasFirstMove = wasFirst;
+            this.wasSecondMove = wasSecond;
+            this.prevEnPassantRow = prevEpRow;
+            this.prevEnPassantCol = prevEpCol;
+        }
+    }
 
     public Board() {
         Gameboard = new Piece[8][8]; // Initialize the board with 8x8 size
+        moveHistory = new ArrayList<>();
+        moveRecords = new Stack<>();
         initializeBoard(); // Set up the initial chess pieces
     }
 
@@ -44,55 +84,73 @@ public class Board {
         Gameboard[7][7] = new Rook(Player.PlayerColor.WHITE, 7, 7);
 
     }
+
     public Piece getPiece(int row, int col) {
         if (row < 0 || row >= 8 || col < 0 || col >= 8) {
             return null; // Out of bounds
         }
         return Gameboard[row][col];
     }
+
     public void setPiece(int row, int col, Piece piece) {
         if (row < 0 || row >= 8 || col < 0 || col >= 8) {
             return; // Out of bounds
         }
         Gameboard[row][col] = piece; // Place the piece on the board
     }
+
     public void printBoard() {
-        // Show piece legend at the top
-        System.out.println("White: K Q R N B P   Black: k q r n b p");
-        // Print column labels at the top
-        System.out.print("  ");
-        for (char c = 'a'; c <= 'h'; c++) {
-            System.out.print(c + " ");
-        }
-        System.out.println();
-        for (int i = 0; i < 8; i++) { // Print from row 7 (top) to row 0 (bottom)
-            System.out.print((8 - i) + " "); // Row label on the left
+        System.out.println("  +---+---+---+---+---+---+---+---+     Move History");
+
+        for (int i = 0; i < 8; i++) {
+            int row = flip ? 7 - i : i;
+            System.out.print((8 - i) + " ");
+
             for (int j = 0; j < 8; j++) {
-                if (Gameboard[i][j] == null) {
-                    System.out.print(". "); // Empty square
+                int col = flip ? 7 - j : j;
+                System.out.print("| ");
+                Piece piece = Gameboard[row][col];
+                if (piece != null) {
+                    System.out.print(piece.getSymbol());
                 } else {
-                    System.out.print(Gameboard[i][j].getSymbol() + " "); // Piece symbol
+                    System.out.print(" ");
                 }
+                System.out.print(" ");
             }
-            System.out.println((8 - i)); // Row label on the right
+
+            System.out.print("|     ");
+
+            // Print move history entry if available
+            if (i < moveHistory.size()) {
+                System.out.print((i + 1) + ". " + moveHistory.get(i));
+            }
+
+            System.out.println();
+            System.out.println("  +---+---+---+---+---+---+---+---+");
         }
-        // Print column labels at the bottom
-        System.out.print("  ");
-        for (char c = 'a'; c <= 'h'; c++) {
-            System.out.print(c + " ");
+        
+        // Print column labels correctly based on board orientation
+        System.out.print("    ");
+        for (int j = 0; j < 8; j++) {
+            int col = flip ? 7 - j : j;
+            System.out.print((char) ('a' + col) + "   ");
         }
         System.out.println();
     }
+
     public Piece[][] getGameboard() {
         return Gameboard; // Return the current state of the board
     }
+
     public void resetBoard() {
         Gameboard = new Piece[8][8]; // Reset the board to an empty state
         initializeBoard(); // Reinitialize with default pieces
     }
+
     public boolean isInBounds(int row, int col) {
         return row >= 0 && row < 8 && col >= 0 && col < 8; // Check if the position is within the board limits
     }
+
     public boolean isSquareOccupied(int row, int col) {
         return isInBounds(row, col) && Gameboard[row][col] != null; // Check if the square is occupied by a piece
     }
@@ -155,6 +213,18 @@ public class Board {
         flip = !flip;
     }
 
+    // New method to set the board orientation based on current player
+    public void setOrientationForPlayer(Player.PlayerColor currentPlayerColor) {
+        // If white is playing, don't flip (white at bottom)
+        // If black is playing, flip (black at bottom)
+        boolean shouldBeFlipped = (currentPlayerColor == Player.PlayerColor.BLACK);
+        
+        // Only flip if we need to change orientation
+        if (shouldBeFlipped != flip) {
+            flipped();
+        }
+    }
+
     public boolean hasKing(Player.PlayerColor color) {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -165,5 +235,164 @@ public class Board {
             }
         }
         return false;
+    }
+
+    // Get the en passant target square
+    public int[] getEnPassantTarget() {
+        if (enPassantTargetRow == -1 || enPassantTargetCol == -1) {
+            return null;
+        }
+        return new int[] {enPassantTargetRow, enPassantTargetCol};
+    }
+
+    // Reset en passant target
+    public void resetEnPassantTarget() {
+        enPassantTargetRow = -1;
+        enPassantTargetCol = -1;
+    }
+
+    // Get move history
+    public ArrayList<String> getMoveHistory() {
+        return moveHistory;
+    }
+
+    // Method to move a piece with en passant handling
+    public boolean movePiece(int fromRow, int fromCol, int toRow, int toCol) {
+        Piece piece = getPiece(fromRow, fromCol);
+        if (piece == null) {
+            return false;
+        }
+
+        // Store the previous en passant target
+        int prevEnPassantRow = enPassantTargetRow;
+        int prevEnPassantCol = enPassantTargetCol;
+
+        // Reset en passant target by default (may be set below if applicable)
+        resetEnPassantTarget();
+
+        // Store first move state for pawns, rooks, and kings
+        boolean wasFirstMove = false;
+        boolean wasSecondMove = false;
+        if (piece instanceof Pawn || piece instanceof Rook || piece instanceof King) {
+            wasFirstMove = piece.getFirstMove();
+            if (piece instanceof Pawn) {
+                wasSecondMove = ((Pawn)piece).getSecondMove();
+            }
+        }
+
+        // Check for en passant capture
+        Piece capturedPiece = getPiece(toRow, toCol);
+        if (piece instanceof Pawn) {
+            // If moving diagonally to an empty square, it might be en passant
+            if (fromCol != toCol && capturedPiece == null) {
+                // The captured pawn is on the same row as the moving pawn, but in the target column
+                capturedPiece = getPiece(fromRow, toCol);
+                if (capturedPiece instanceof Pawn) {
+                    // Remove the captured pawn
+                    setPiece(fromRow, toCol, null);
+                }
+            }
+
+            // Set en passant target if pawn moves two squares
+            if (Math.abs(fromRow - toRow) == 2) {
+                enPassantTargetRow = (fromRow + toRow) / 2; // The square between start and end
+                enPassantTargetCol = toCol;
+            }
+        }
+
+        // Execute the move
+        setPiece(fromRow, fromCol, null);
+        setPiece(toRow, toCol, piece);
+        piece.setX(toCol);
+        piece.setY(toRow);
+
+        // Record the move for history
+        String moveNotation = generateMoveNotation(piece, fromRow, fromCol, toRow, toCol, capturedPiece != null);
+        moveHistory.add(moveNotation);
+
+        // Store the move for potential undo
+        moveRecords.push(new MoveRecord(piece, capturedPiece, fromRow, fromCol, toRow, toCol,
+                                       wasFirstMove, wasSecondMove, prevEnPassantRow, prevEnPassantCol));
+
+        return true;
+    }
+
+    // Generate algebraic notation for a move
+    private String generateMoveNotation(Piece piece, int fromRow, int fromCol, int toRow, int toCol, boolean isCapture) {
+        StringBuilder notation = new StringBuilder();
+
+        // Add piece symbol (except for pawns)
+        if (!(piece instanceof Pawn)) {
+            notation.append(piece.getSymbol());
+        }
+
+        // Add from coordinates
+        notation.append((char)('a' + fromCol));
+        notation.append(8 - fromRow);
+
+        // Add capture symbol if applicable
+        if (isCapture) {
+            notation.append('x');
+        } else {
+            notation.append('-');
+        }
+
+        // Add to coordinates
+        notation.append((char)('a' + toCol));
+        notation.append(8 - toRow);
+
+        return notation.toString();
+    }
+
+    // Undo the last move
+    public boolean undoMove() {
+        if (moveRecords.isEmpty()) {
+            return false;
+        }
+
+        MoveRecord lastMove = moveRecords.pop();
+
+        // Restore the piece to its original position
+        setPiece(lastMove.fromRow, lastMove.fromCol, lastMove.movedPiece);
+        lastMove.movedPiece.setX(lastMove.fromCol);
+        lastMove.movedPiece.setY(lastMove.fromRow);
+
+        // Restore first move status for applicable pieces
+        if (lastMove.movedPiece instanceof Pawn) {
+            Pawn pawn = (Pawn) lastMove.movedPiece;
+            pawn.setFirstMove(lastMove.wasFirstMove);
+            pawn.setSecondMove(lastMove.wasSecondMove);
+        } else if (lastMove.movedPiece instanceof Rook) {
+            Rook rook = (Rook) lastMove.movedPiece;
+            rook.setFirstMove(lastMove.wasFirstMove);
+        } else if (lastMove.movedPiece instanceof King) {
+            King king = (King) lastMove.movedPiece;
+            king.setFirstMove(lastMove.wasFirstMove);
+        }
+
+        // For en passant captures, the captured piece isn't at the destination
+        if (lastMove.movedPiece instanceof Pawn &&
+            lastMove.capturedPiece instanceof Pawn &&
+            lastMove.fromCol != lastMove.toCol &&
+            lastMove.capturedPiece.getY() != lastMove.toRow) {
+
+            // Restore the captured pawn to its original position
+            setPiece(lastMove.fromRow, lastMove.toCol, lastMove.capturedPiece);
+            setPiece(lastMove.toRow, lastMove.toCol, null);
+        } else {
+            // Restore captured piece if any
+            setPiece(lastMove.toRow, lastMove.toCol, lastMove.capturedPiece);
+        }
+
+        // Restore en passant target
+        enPassantTargetRow = lastMove.prevEnPassantRow;
+        enPassantTargetCol = lastMove.prevEnPassantCol;
+
+        // Remove the last move from history
+        if (!moveHistory.isEmpty()) {
+            moveHistory.remove(moveHistory.size() - 1);
+        }
+
+        return true;
     }
 }

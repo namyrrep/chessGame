@@ -26,16 +26,12 @@ public class Main {
             System.out.println("Invalid option. Please enter 'sandbox' or 'AI'.");
         }
 
-        if (mode.equals("ai")) {
-            // Remove the exit so AI mode is playable
-            // System.out.println("AI mode is not yet implemented. Exiting.");
-            // scanner.close();
-            // return;
-        }
-
         Player player1 = new Player(Player.PlayerColor.WHITE, "White");
         Player player2 = new Player(Player.PlayerColor.BLACK, "Black");
         GameController controller = new GameController(player1, player2);
+        
+        // Initial orientation - white at bottom
+        controller.getBoard().setOrientationForPlayer(Player.PlayerColor.WHITE);
 
         SimpleAI ai = null;
         boolean vsAI = mode.equals("ai");
@@ -43,10 +39,17 @@ public class Main {
             ai = new SimpleAI(player2); // AI is Black
         }
 
+        // Board auto-rotation enabled by default
+        boolean autoRotateBoard = true;
+        
         while (true) {
             controller.getBoard().printBoard();
             Player current = controller.getCurrentPlayer();
+            
+            // Print whose turn it is and the current orientation
             System.out.println(current.getName() + "'s turn (" + current.getColor() + ")");
+            System.out.println("Board orientation: " + 
+                (controller.getBoard().getFlip() ? "Black at bottom" : "White at bottom"));
 
             if (vsAI && current.getColor() == Player.PlayerColor.BLACK) {
                 // AI's turn
@@ -64,16 +67,44 @@ public class Main {
                 boolean helper = true;
                 while (helper)
                 {
-                    System.out.print("Enter your move (e.g., e2e4), get possible moves (e.g., e2), 'flip', or 'exit': ");
+                    System.out.print("Enter your move (e.g., e2e4), get possible moves (e.g., e2), 'flip', 'autoflip', 'undo', or 'exit': ");
                     input = scanner.nextLine().trim();
 
                     if (input.equalsIgnoreCase("flip")) 
                     {
                         controller.getBoard().flipped();
-                        System.out.println("Board has been flipped.");
-                        //printBoard() acts defirently when flipped.
+                        System.out.println("Board has been manually flipped.");
                         controller.getBoard().printBoard();
                         continue;
+                    }
+                    
+                    if (input.equalsIgnoreCase("autoflip")) 
+                    {
+                        autoRotateBoard = !autoRotateBoard;
+                        System.out.println("Auto board rotation is now: " + 
+                            (autoRotateBoard ? "ON" : "OFF"));
+                        if (autoRotateBoard) {
+                            // Immediately set orientation for current player
+                            controller.getBoard().setOrientationForPlayer(current.getColor());
+                            controller.getBoard().printBoard();
+                        }
+                        continue;
+                    }
+                    
+                    if (input.equalsIgnoreCase("undo")) {
+                        if (controller.undoLastMove()) {
+                            System.out.println("Move undone.");
+                            // Undo AI's move too in AI mode
+                            if (vsAI && controller.getCurrentPlayer().getColor() == Player.PlayerColor.BLACK) {
+                                controller.undoLastMove();
+                            }
+                            if (autoRotateBoard) {
+                                controller.getBoard().setOrientationForPlayer(controller.getCurrentPlayer().getColor());
+                            }
+                        } else {
+                            System.out.println("No moves to undo.");
+                        }
+                        break;
                     }
 
                     if (input.length() != 2)
@@ -84,7 +115,13 @@ public class Main {
                     int possibleCol = input.charAt(0) - 'a';
                     int possibleRow = 8 - (input.charAt(1) - '0');
 
-                    ArrayList<String> possibleMoves = controller.getBoard().getPiece(possibleRow, possibleCol).possibleMove(controller.getBoard());
+                    Piece selectedPiece = controller.getBoard().getPiece(possibleRow, possibleCol);
+                    if (selectedPiece == null) {
+                        System.out.println("No piece at that position.");
+                        continue;
+                    }
+
+                    ArrayList<String> possibleMoves = selectedPiece.possibleMove(controller.getBoard());
 
                     if (possibleMoves.isEmpty())
                     {
@@ -116,6 +153,14 @@ public class Main {
                 if (!controller.makeMove(fromRow, fromCol, toRow, toCol)) {
                     System.out.println("Invalid move. Try again.");
                     continue;
+                }
+                
+                // If auto-rotation is off, restore the board orientation after the controller changes it
+                if (!autoRotateBoard) {
+                    // Reset the orientation to what the user prefers (default: white at bottom)
+                    if (controller.getBoard().getFlip()) { 
+                        controller.getBoard().flipped(); // Flip back to white at bottom
+                    }
                 }
             }
 

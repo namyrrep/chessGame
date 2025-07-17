@@ -61,16 +61,9 @@ public class Piece
 
         while((changingX > 0 && changingX > changingX - maxDistance) && (changingY > 0 && changingY > changingY - maxDistance))
         {
-            //This will not affect the outside variables
             changingX--;
             changingY--;
-            //Runs isChecked() in case the King is already in check,
-            //or if the current move would put the King in check. 
-            if (board.isChecked(color))
-            {
-                continue;
-            }
-
+            // Remove the recursive board.isChecked() call here to prevent stack overflow
             Piece checkPiece = board.getPiece(changingY, changingX);
             
             //If there is nothing at position
@@ -102,14 +95,9 @@ public class Piece
 
         while((changingX < 7 && changingX < changingX + maxDistance) && (changingY > 0 && changingY > changingY - maxDistance))
         {
-            //This will not affect the outside variables
             changingX++;
             changingY--;
-            if (board.isChecked(color))
-            {
-                continue;
-            }
-
+            // Remove the recursive check
             Piece checkPiece = board.getPiece(changingY, changingX);
             
             //If there is nothing at position
@@ -141,14 +129,9 @@ public class Piece
 
         while((changingX < 7 && changingX < changingX + maxDistance) && (changingY < 7 && changingY < changingY + maxDistance))
         {
-            //This will not affect the outside variables
             changingX++;
             changingY++;
-            if (board.isChecked(color))
-            {
-                continue;
-            }
-
+            // Remove the recursive check here
             Piece checkPiece = board.getPiece(changingY, changingX);
             
             //If there is nothing at position
@@ -180,14 +163,9 @@ public class Piece
 
         while((changingX > 0 && changingX > changingX - maxDistance) && (changingY < 7 && changingY < changingY + maxDistance))
         {
-            //This will not affect the outside variables
             changingX--;
             changingY++;
-            if (board.isChecked(color))
-            {
-                continue;
-            }
-
+            // Remove the recursive check here
             Piece checkPiece = board.getPiece(changingY, changingX);
             
             //If there is nothing at position
@@ -220,11 +198,7 @@ public class Piece
         {
             //This will not affect the outside variables
             changingX--;
-            if (board.isChecked(color))
-            {
-                continue;
-            }
-
+            // Remove the recursive check here
             Piece checkPiece = board.getPiece(yCoordinate, changingX);
             
             //If there is nothing at position
@@ -257,11 +231,7 @@ public class Piece
         {
             //This will not affect the outside variables
             changingX++;
-            if (board.isChecked(color))
-            {
-                continue;
-            }
-
+            // Remove the recursive check here
             Piece checkPiece = board.getPiece(yCoordinate, changingX);
             
             //If there is nothing at position
@@ -294,11 +264,7 @@ public class Piece
         {
             //This will not affect the outside variables
             changingY--;
-            if (board.isChecked(color))
-            {
-                continue;
-            }
-
+            // Remove the recursive check here
             Piece checkPiece = board.getPiece(changingY, xCoordinate);
             
             //If there is nothing at position
@@ -331,11 +297,7 @@ public class Piece
         {
             //This will not affect the outside variables
             changingY++;
-            if (board.isChecked(color))
-            {
-                continue;
-            }
-
+            // Remove the recursive check here
             Piece checkPiece = board.getPiece(changingY, xCoordinate);
             
             //If there is nothing at position

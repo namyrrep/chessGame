@@ -1,11 +1,85 @@
 plugins {
     id 'java'
+    id 'application'
+    // Comment out the JavaFX plugin until you need it
+    // id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
 repositories {
     mavenCentral()
 }
 
+sourceCompatibility = 17
+targetCompatibility = 17
+
+// Configure JavaFX (currently commented out until you need it)
+/*
+javafx {
+    version = '17.0.2'
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+*/
+
+application {
+    // Define the main class for the application
+    mainClass = 'Main'
+}
+
 dependencies {
+    // Testing
     testImplementation 'junit:junit:4.13.2'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+            // Make sure test can see main
+            compileClasspath += sourceSets.main.output
+            runtimeClasspath += sourceSets.main.output
+        }
+    }
+}
+
+test {
+    // Enable JUnit Platform for testing
+    useJUnit()
+    
+    // Show test output in console
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+// Create executable JAR with all dependencies
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'Main'
+        )
+    }
+    
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// Simple task to run the chess game
+task runChess(type: JavaExec) {
+    group = "application"
+    description = "Run Chess Game"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'Main'
+}
+
+// Add wrapper task to generate proper wrapper files
+wrapper {
+    gradleVersion = '8.3'
 }

@@ -3,13 +3,16 @@ import java.util.ArrayList;
  * This is the Pawn class that stores all information about the Pawn Piece.
  */
 public class Pawn extends Piece {
-    boolean firstMove = true;
+    private boolean firstMove;
+    private boolean secondMove;
 
     //This is the constructor for the Pawn class.
     public Pawn(Player.PlayerColor pieceColor, int x, int y) {
         this.setColor(pieceColor);
         this.setX(x);
         this.setY(y);
+        firstMove = true;
+        secondMove = false;
     }
 
     //This is the overridden possibleMove method for the Pawn class.
@@ -43,7 +46,24 @@ public class Pawn extends Piece {
                 }
             }
         }
-        // TODO: Add en passant and promotion logic if needed
+        // Check for en passant
+        int[] enPassantTarget = board.getEnPassantTarget();
+        if (enPassantTarget != null) {
+            int epRow = enPassantTarget[0];
+            int epCol = enPassantTarget[1];
+
+            // En passant is possible if the pawn is on the 5th rank (for white) or 4th rank (for black)
+            // and the target is adjacent
+            if ((y == 3 && getColor() == Player.PlayerColor.BLACK) ||
+                (y == 4 && getColor() == Player.PlayerColor.WHITE)) {
+
+                if (epRow == y && Math.abs(epCol - x) == 1) {
+                    moves.add("" + (char)('a' + x) + (char)('8' - y) + "x" +
+                             (char)('a' + epCol) + (char)('8' - (y + direction)));
+                }
+            }
+        }
+
         return moves;
     }
 
@@ -59,8 +79,48 @@ public class Pawn extends Piece {
         return firstMove;
     }
 
+    //This is the getter method for secondMove.
+    @Override
+    public boolean getSecondMove() {
+        return secondMove;
+    }
+
     //This is the setter method for firstMove.
-    public void setFirstMove(boolean newMove) {
-        firstMove = newMove;
+    public void setFirstMove(boolean value) {
+        firstMove = value;
+    }
+
+    //This is the setter method for secondMove.
+    public void setSecondMove(boolean value) {
+        secondMove = value;
+    }
+
+    // Override isValidMove to include en passant logic
+    @Override
+    public boolean isValidMove(int targetRow, int targetCol, Board board) {
+        // First check standard moves
+        boolean standardValid = super.isValidMove(targetRow, targetCol, board);
+
+        // If it's already valid by standard rules, return true
+        if (standardValid) {
+            return true;
+        }
+
+        // Check specifically for en passant
+        int[] enPassantTarget = board.getEnPassantTarget();
+        if (enPassantTarget != null) {
+            int epRow = enPassantTarget[0];
+            int epCol = enPassantTarget[1];
+
+            int direction = (getColor() == Player.PlayerColor.WHITE) ? -1 : 1;
+
+            // The target square is the one behind the pawn that moved two squares
+            if (targetRow == epRow + direction && targetCol == epCol &&
+                Math.abs(getX() - epCol) == 1 && getY() == epRow) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

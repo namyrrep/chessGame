@@ -1,0 +1,16 @@
+// Add this content to your build.gradle or create a new file and include it
+
+task runTests(type: Test) {
+    group = "verification"
+    description = "Run all chess game tests"
+    
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    
+    // Show test output
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat = 'full'
+        showStandardStreams = true
+    }
+}
