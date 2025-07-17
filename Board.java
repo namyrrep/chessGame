@@ -57,29 +57,59 @@ public class Board {
         Gameboard[row][col] = piece; // Place the piece on the board
     }
     public void printBoard() {
-        // Show piece legend at the top
-        System.out.println("White: K Q R N B P   Black: k q r n b p");
-        // Print column labels at the top
-        System.out.print("  ");
-        for (char c = 'a'; c <= 'h'; c++) {
-            System.out.print(c + " ");
-        }
-        System.out.println();
-        for (int i = 0; i < 8; i++) { // Print from row 7 (top) to row 0 (bottom)
-            System.out.print((8 - i) + " "); // Row label on the left
-            for (int j = 0; j < 8; j++) {
-                if (Gameboard[i][j] == null) {
-                    System.out.print(". "); // Empty square
-                } else {
-                    System.out.print(Gameboard[i][j].getSymbol() + " "); // Piece symbol
-                }
+        if (flip)
+        {
+            // Show piece legend at the top
+            System.out.println("White: K Q R N B P   Black: k q r n b p");
+            // Print column labels at the top
+            System.out.print("  ");
+            for (char c = 'h'; c >= 'a'; c--) {
+                System.out.print(c + " ");
             }
-            System.out.println((8 - i)); // Row label on the right
+            System.out.println();
+            for (int i = 7; i >= 0; i--) { // Print from row 7 (top) to row 0 (bottom)
+                System.out.print((8 - i) + " "); // Row label on the left
+                for (int j = 7; j >= 0; j--) {
+                    if (Gameboard[i][j] == null) {
+                        System.out.print(". "); // Empty square
+                    } else {
+                        System.out.print(Gameboard[i][j].getSymbol() + " "); // Piece symbol
+                    }
+                }
+                System.out.println((8 - i)); // Row label on the right
+            }
+            // Print column labels at the bottom
+            System.out.print("  ");
+            for (char c = 'h'; c >= 'a'; c--) {
+                System.out.print(c + " ");
+            }
         }
-        // Print column labels at the bottom
-        System.out.print("  ");
-        for (char c = 'a'; c <= 'h'; c++) {
-            System.out.print(c + " ");
+        else
+        {
+            // Show piece legend at the top
+            System.out.println("White: K Q R N B P   Black: k q r n b p");
+            // Print column labels at the top
+            System.out.print("  ");
+            for (char c = 'a'; c <= 'h'; c++) {
+                System.out.print(c + " ");
+            }
+            System.out.println();
+            for (int i = 0; i < 8; i++) { // Print from row 7 (top) to row 0 (bottom)
+                System.out.print((8 - i) + " "); // Row label on the left
+                for (int j = 0; j < 8; j++) {
+                    if (Gameboard[i][j] == null) {
+                    System.out.print(". "); // Empty square
+                    } else {
+                    System.out.print(Gameboard[i][j].getSymbol() + " "); // Piece symbol
+                    }
+                }
+                System.out.println((8 - i)); // Row label on the right
+            }
+            // Print column labels at the bottom
+            System.out.print("  ");
+            for (char c = 'a'; c <= 'h'; c++) {
+                System.out.print(c + " ");
+            }
         }
         System.out.println();
     }
