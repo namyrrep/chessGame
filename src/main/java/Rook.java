@@ -1,18 +1,26 @@
 import java.util.ArrayList;
-/*
- * This is the Rook class that stores all information about the Rook Piece.
+
+/**
+ * Represents a rook chess piece.
+ * Implements rook-specific movement along ranks and files.
  */
 public class Rook extends Piece
 {
-    //This will be used to check if the castle option is a possible move.
-    boolean firstMove = true;
-
-    //This is the constructor for the Rook class. 
+    private boolean firstMove;
+    
+    /**
+     * Creates a new rook at the specified position with the specified color.
+     * 
+     * @param pieceColor The color of the rook (WHITE or BLACK)
+     * @param x The initial x-coordinate (column)
+     * @param y The initial y-coordinate (row)
+     */
     public Rook(Player.PlayerColor pieceColor, int x, int y)
     {
-        this.setColor(pieceColor);
-        this.setX(x);
-        this.setY(y);
+        color = pieceColor;
+        xCoordinate = x;
+        yCoordinate = y;
+        firstMove = true;
     }
 
     //This is the getter method for firstMove
@@ -22,7 +30,12 @@ public class Rook extends Piece
         return firstMove;
     }
 
-    //This is the setter method for firstMove.
+    /**
+     * Sets whether this rook has moved from its starting position.
+     * Important for castling eligibility.
+     * 
+     * @param newMove true if the rook has moved, false otherwise
+     */
     public void setFirstMove(boolean newMove)
     {
         firstMove = newMove;

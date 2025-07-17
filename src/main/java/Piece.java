@@ -7,50 +7,94 @@ import java.util.ArrayList;
  * Declares abstract method for getting possible moves.
  * Subclasses: King, Queen, Bishop, Knight, Rook, Pawn (each with their own movement logic).
  */
+
+/**
+ * Base class for all chess pieces.
+ * Provides common functionality and properties for all chess pieces.
+ * Contains methods for movement pattern calculation and piece identification.
+ */
 public class Piece
 {
     //Initialize variables
+    /** The color of this piece (WHITE or BLACK) */
     Player.PlayerColor color;
+    
+    /** The x-coordinate (column) of this piece on the board */
     int xCoordinate;
+    
+    /** The y-coordinate (row) of this piece on the board */
     int yCoordinate;
 
-    //This allows me to change the color of a piece outside of this class.
+    /**
+     * Changes the color of this piece.
+     * 
+     * @param newColor The new color to set
+     */
     public void setColor(Player.PlayerColor newColor)
     {
         color = newColor;
     }
 
-    //This allows me to get the color of a piece outside of this class.
+    /**
+     * Gets the color of this piece.
+     * 
+     * @return The piece color (WHITE or BLACK)
+     */
     public Player.PlayerColor getColor()
     {
         return color;
     }
 
-    //This allows me to get the xCoordinate of a Piece.
+    /**
+     * Gets the x-coordinate (column) of this piece.
+     * 
+     * @return The x-coordinate (0-7)
+     */
     public int getX()
     {
         return xCoordinate;
     }
 
-    //This allows me to change the xCoordinate of a Piece.
+    /**
+     * Sets the x-coordinate (column) of this piece.
+     * 
+     * @param newX The new x-coordinate value
+     */
     public void setX(int newX)
     {
         xCoordinate = newX;
     }
 
-    //This allows me to get the yCoordinate of a Piece.
+    /**
+     * Gets the y-coordinate (row) of this piece.
+     * 
+     * @return The y-coordinate (0-7)
+     */
     public int getY()
     {
         return yCoordinate;
     }
 
-    //This allows me to change the yCoordinate of a Piece.
+    /**
+     * Sets the y-coordinate (row) of this piece.
+     * 
+     * @param newY The new y-coordinate value
+     */
     public void setY(int newY)
     {
         yCoordinate = newY;
     }
 
-    //Adds possible moves in the up and left direction to the possibleMoves ArrayList.
+    /**
+     * Calculates possible moves in the up-left diagonal direction.
+     * 
+     * @param currentMoves List to add moves to
+     * @param maxDistance Maximum distance to check
+     * @param x Starting x-coordinate
+     * @param y Starting y-coordinate
+     * @param board The current board state
+     * @return Updated list of possible moves
+     */
     public ArrayList<String> upLeft(ArrayList<String> currentMoves, int maxDistance, int x, int y, Board board)
     {
         //Sets the return List to the parameterized list, 
@@ -84,7 +128,16 @@ public class Piece
         return possibleMoves;
     }
 
-    //Adds possible moves in the up and right direction to the possibleMoves ArrayList.
+    /**
+     * Calculates possible moves in the up-right diagonal direction.
+     * 
+     * @param currentMoves List to add moves to
+     * @param maxDistance Maximum distance to check
+     * @param x Starting x-coordinate
+     * @param y Starting y-coordinate
+     * @param board The current board state
+     * @return Updated list of possible moves
+     */
     public ArrayList<String> upRight(ArrayList<String> currentMoves, int maxDistance, int x, int y, Board board)
     {
         //Sets the return List to the parameterized list, 
@@ -118,7 +171,16 @@ public class Piece
         return possibleMoves;
     }
 
-    //Adds possible moves in the down and right direction to the possibleMoves ArrayList.
+    /**
+     * Calculates possible moves in the down-right diagonal direction.
+     * 
+     * @param currentMoves List to add moves to
+     * @param maxDistance Maximum distance to check
+     * @param x Starting x-coordinate
+     * @param y Starting y-coordinate
+     * @param board The current board state
+     * @return Updated list of possible moves
+     */
     public ArrayList<String> downRight(ArrayList<String> currentMoves, int maxDistance, int x, int y, Board board)
     {
         //Sets the return List to the parameterized list, 
@@ -152,7 +214,16 @@ public class Piece
         return possibleMoves;
     }
 
-    //Adds possible moves in the down and left direction to the possibleMoves ArrayList.
+    /**
+     * Calculates possible moves in the down-left diagonal direction.
+     * 
+     * @param currentMoves List to add moves to
+     * @param maxDistance Maximum distance to check
+     * @param x Starting x-coordinate
+     * @param y Starting y-coordinate
+     * @param board The current board state
+     * @return Updated list of possible moves
+     */
     public ArrayList<String> downLeft(ArrayList<String> currentMoves, int maxDistance, int x, int y, Board board)
     {
         //Sets the return List to the parameterized list, 
@@ -186,7 +257,14 @@ public class Piece
         return possibleMoves;
     }
 
-    //Adds possible moves in the left direction to the possibleMoves ArrayList.
+    /**
+     * Calculates possible moves to the left.
+     * 
+     * @param currentMoves List to add moves to
+     * @param maxDistance Maximum distance to check
+     * @param board The current board state
+     * @return Updated list of possible moves
+     */
     public ArrayList<String> left(ArrayList<String> currentMoves, int maxDistance, Board board)
     {
         //Sets the return List to the parameterized list, 
@@ -219,7 +297,14 @@ public class Piece
         return possibleMoves;
     }
 
-    //Adds possible moves in the right direction to the possibleMoves ArrayList.
+    /**
+     * Calculates possible moves to the right.
+     * 
+     * @param currentMoves List to add moves to
+     * @param maxDistance Maximum distance to check
+     * @param board The current board state
+     * @return Updated list of possible moves
+     */
     public ArrayList<String> right(ArrayList<String> currentMoves, int maxDistance, Board board)
     {
         //Sets the return List to the parameterized list, 
@@ -252,7 +337,14 @@ public class Piece
         return possibleMoves;
     }
 
-    //Adds possible moves in the up direction to the possibleMoves ArrayList.
+    /**
+     * Calculates possible moves upward.
+     * 
+     * @param currentMoves List to add moves to
+     * @param maxDistance Maximum distance to check
+     * @param board The current board state
+     * @return Updated list of possible moves
+     */
     public ArrayList<String> up(ArrayList<String> currentMoves, int maxDistance, Board board)
     {
         //Sets the return List to the parameterized list, 
@@ -285,7 +377,14 @@ public class Piece
         return possibleMoves;
     }
 
-    //Adds possible moves in the down direction to the possibleMoves ArrayList.
+    /**
+     * Calculates possible moves downward.
+     * 
+     * @param currentMoves List to add moves to
+     * @param maxDistance Maximum distance to check
+     * @param board The current board state
+     * @return Updated list of possible moves
+     */
     public ArrayList<String> down(ArrayList<String> currentMoves, int maxDistance, Board board)
     {
         //Sets the return List to the parameterized list, 
@@ -318,42 +417,67 @@ public class Piece
         return possibleMoves;
     }
 
-    //This method is overridden for classes that use the firstMove field.
-    //Returns false if not overridden (not used within that class).
+    /**
+     * Checks if this piece has moved from its starting position.
+     * Primarily used by King, Rook, and Pawn.
+     * 
+     * @return false by default, overridden in subclasses
+     */
     public boolean getFirstMove()
     {
         return false;
     }
 
-    //This method is overridden for all subclasses of Piece. Returns an array of possible moves.
+    /**
+     * Gets all possible moves for this piece.
+     * Each piece type implements its own movement logic.
+     * 
+     * @param board The current board state
+     * @return List of possible moves in algebraic notation
+     */
     public ArrayList<String> possibleMove(Board board) {
         return new ArrayList<>();
     }
 
-    // Helper to return correct symbol for color
+    /**
+     * Converts a character symbol to the appropriate case based on piece color.
+     * 
+     * @param baseSymbol The character symbol to convert
+     * @return Uppercase for white pieces, lowercase for black pieces
+     */
     protected char symbolForColor(char baseSymbol) {
         return (getColor() == Player.PlayerColor.WHITE) ? Character.toUpperCase(baseSymbol) : Character.toLowerCase(baseSymbol);
     }
 
-    //This is the getter method for the symbol field. It is overridden for all subclasses of Piece.
+    /**
+     * Gets the character symbol representing this piece.
+     * 
+     * @return Character symbol for the piece
+     */
     public char getSymbol()
     {
         return ' ';
     }
 
-    //This is the getter method for the second move (Only used in Pawn Class, false if not a Pawn))
+    /**
+     * Checks if this is the second move of a pawn.
+     * Only applicable for Pawn class.
+     * 
+     * @return false by default, overridden in Pawn class
+     */
     public boolean getSecondMove()
     {
         return false;
     }
 
-     /**
+    /**
      * Checks if moving this piece to (targetRow, targetCol) is valid according to chess rules.
      * This checks if the move is in the piece's possible moves.
-     * @param targetRow The row to move to.
-     * @param targetCol The column to move to.
-     * @param board The current board state.
-     * @return true if the move is valid, false otherwise.
+     * 
+     * @param targetRow The row to move to
+     * @param targetCol The column to move to
+     * @param board The current board state
+     * @return true if the move is valid, false otherwise
      */
     public boolean isValidMove(int targetRow, int targetCol, Board board) {
         ArrayList<String> moves = this.possibleMove(board);

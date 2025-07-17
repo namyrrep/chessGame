@@ -1,9 +1,18 @@
 import java.util.ArrayList;
-/*
- * This is the Bishop class that stores all information about the Bishop Piece.
+
+/**
+ * Represents a bishop chess piece.
+ * Implements bishop-specific diagonal movement.
  */
 public class Bishop extends Piece {
-    //This is the constructor for the Bishop Class.
+    
+    /**
+     * Creates a new bishop at the specified position with the specified color.
+     * 
+     * @param pieceColor The color of the bishop (WHITE or BLACK)
+     * @param x The initial x-coordinate (column)
+     * @param y The initial y-coordinate (row)
+     */
     public Bishop(Player.PlayerColor pieceColor, int x, int y) {
         this.setColor(pieceColor);
         this.setX(x);

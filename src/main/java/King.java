@@ -1,28 +1,46 @@
 import java.util.ArrayList;
-/*
- * This is the King class that stores all information about the King Piece.
+
+/**
+ * Represents a king chess piece.
+ * Implements king-specific movement of one square in any direction.
  */
 public class King extends Piece
 {
-    //This will be used to check if the castle option is a possible move.
-    boolean firstMove = true;
+    private boolean firstMove;
 
-    //This is the constructor for the King class. 
+    /**
+     * Creates a new king at the specified position with the specified color.
+     * 
+     * @param pieceColor The color of the king (WHITE or BLACK)
+     * @param x The initial x-coordinate (column)
+     * @param y The initial y-coordinate (row)
+     */
     public King(Player.PlayerColor pieceColor, int x, int y)
     {
-        this.setColor(pieceColor);
-        this.setX(x);
-        this.setY(y);
+        color = pieceColor;
+        xCoordinate = x;
+        yCoordinate = y;
+        firstMove = true;
     }
 
-    //This is the getter method for firstMove.
+    /**
+     * Checks if the king has moved from its starting position.
+     * This is used to determine castling eligibility.
+     * 
+     * @return true if the king has moved, false otherwise
+     */
     @Override
     public boolean getFirstMove()
     {
         return firstMove;
     }
 
-    //This is the setter method for firstMove.
+    /**
+     * Sets whether this king has moved from its starting position.
+     * Important for castling eligibility.
+     * 
+     * @param newMove true if the king has moved, false otherwise
+     */
     public void setFirstMove(boolean newMove)
     {
         firstMove = newMove;

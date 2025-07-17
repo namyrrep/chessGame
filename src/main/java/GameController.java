@@ -1,38 +1,66 @@
-/*
- * Both People
- * GameController.java
- * Manages the overall game state, turn order, and rule enforcement.
- * Detects check, checkmate, stalemate, and draw.
- * Handles move validation, special moves (castling, en passant, promotion), and move history.
+/**
+ * Controls the chess game flow.
+ * Manages the game board, players, turns, and move execution.
  */
 public class GameController {
     private Board board;
     private Player player1;
     private Player player2;
     private Player currentPlayer;
-    private int turnCounter; // Add turn counter
+    private int turnCounter;
 
+    /**
+     * Creates a new game controller with the specified players.
+     * Initializes the game board and sets player 1 (white) as the current player.
+     * 
+     * @param p1 Player 1 (white)
+     * @param p2 Player 2 (black)
+     */
     public GameController(Player p1, Player p2) {
         board = new Board();
         player1 = p1;
         player2 = p2;
         currentPlayer = player1; // White starts
-        turnCounter = 0; // Initialize turn counter
+        turnCounter = 1;
     }
 
+    /**
+     * Gets the current game board.
+     * 
+     * @return The board object
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Gets the player whose turn it currently is.
+     * 
+     * @return The current player
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
     
-    // Get the current turn number
+    /**
+     * Gets the current turn number.
+     * 
+     * @return The turn counter
+     */
     public int getTurnCounter() {
         return turnCounter;
     }
 
+    /**
+     * Attempts to make a move on the board.
+     * Validates the move, updates the board state, and switches the current player.
+     * 
+     * @param fromRow Source row
+     * @param fromCol Source column
+     * @param toRow Target row
+     * @param toCol Target column
+     * @return true if the move was executed successfully
+     */
     public boolean makeMove(int fromRow, int fromCol, int toRow, int toCol) {
         Piece piece = board.getPiece(fromRow, fromCol);
         
@@ -67,7 +95,12 @@ public class GameController {
         return success;
     }
     
-    // Undo last move
+    /**
+     * Undoes the last move made.
+     * Reverts the board state and switches back to the previous player.
+     * 
+     * @return true if a move was successfully undone
+     */
     public boolean undoLastMove() {
         boolean undone = board.undoMove();
         if (undone) {

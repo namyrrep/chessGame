@@ -1,22 +1,36 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Simple AI player for chess.
+ * Makes random legal moves from the available options.
+ */
 public class SimpleAI {
-    private Player aiPlayer;
-    private Random random = new Random();
+    private Player player;
 
+    /**
+     * Creates a new AI player.
+     *
+     * @param aiPlayer The player this AI controls
+     */
     public SimpleAI(Player aiPlayer) {
-        this.aiPlayer = aiPlayer;
+        player = aiPlayer;
     }
 
-    // Returns an int[] {fromRow, fromCol, toRow, toCol} for a random legal move, or null if none
+    /**
+     * Chooses a move for the AI player.
+     * Currently implements a simple random move strategy.
+     *
+     * @param board The current board state
+     * @return An array with [fromRow, fromCol, toRow, toCol] or null if no moves are available
+     */
     public int[] chooseMove(Board board) {
         ArrayList<int[]> possibleMoves = new ArrayList<>();
         Piece[][] pieces = board.getGameboard();
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 Piece piece = pieces[row][col];
-                if (piece != null && piece.getColor() == aiPlayer.getColor()) {
+                if (piece != null && piece.getColor() == player.getColor()) {
                     ArrayList<String> moves = piece.possibleMove(board);
                     for (String move : moves) {
                         if (move.length() >= 5) {

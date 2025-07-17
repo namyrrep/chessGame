@@ -1,9 +1,18 @@
 import java.util.ArrayList;
-/*
- * This is the Queen class that stores all information about the Queen Piece.
+
+/**
+ * Represents a queen chess piece.
+ * Implements queen-specific movement in all eight directions.
  */
 public class Queen extends Piece {
-    //This is the constructor for the Queen class. 
+    
+    /**
+     * Creates a new queen at the specified position with the specified color.
+     * 
+     * @param pieceColor The color of the queen (WHITE or BLACK)
+     * @param x The initial x-coordinate (column)
+     * @param y The initial y-coordinate (row)
+     */
     public Queen(Player.PlayerColor pieceColor, int x, int y) {
         this.setColor(pieceColor);
         this.setX(x);

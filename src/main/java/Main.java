@@ -8,7 +8,17 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Entry point for the chess game application.
+ * Handles game initialization, user input, and game loop.
+ */
 public class Main {
+    /**
+     * Main method that starts the chess game.
+     * Displays a menu, initializes the game, and processes user input.
+     * 
+     * @param args Command-line arguments (not used)
+     */
     public static void main(String[] args) {
         System.out.println("Thank you for playing Edwin Barrack and William Perryman's Chess game.");
         System.out.println("Please select a mode to start:");

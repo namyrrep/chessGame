@@ -1,25 +1,24 @@
 import java.util.ArrayList;
 import java.util.Stack;
 
-/*
- * Will
- * Board.java
- * Manages the chess board as a 2D array of Piece objects (Piece[8][8]).
- * Responsible for initializing the board with the default chess setup,
- * updating board state, and providing methods to query or modify the board.
+/**
+ * Represents a chess board with an 8x8 grid of pieces.
+ * Handles board state, piece placement, and movement logic.
+ * Also tracks move history and supports en passant captures.
  */
-
 public class Board {
-
-    private Piece[][] Gameboard; // 2D array representing the chess board
-    private boolean flip = false; // Whether or not the board has been flipped
+    private Piece[][] board;
+    private boolean isFlipped = false;
     private ArrayList<String> moveHistory;
     private Stack<MoveRecord> moveRecords;
     // Track en passant target square
     private int enPassantTargetRow = -1;
     private int enPassantTargetCol = -1;
-
-    // Class to store move information for undo feature
+    
+    /**
+     * Represents a move record for the undo feature.
+     * Stores all information needed to reverse a move.
+     */
     private class MoveRecord {
         Piece movedPiece;
         Piece capturedPiece;
@@ -48,68 +47,90 @@ public class Board {
             this.prevEnPassantCol = prevEpCol;
         }
     }
-
+    
+    /**
+     * Creates a new chess board with pieces in their starting positions.
+     * Initializes move history and records for undo functionality.
+     */
     public Board() {
-        Gameboard = new Piece[8][8]; // Initialize the board with 8x8 size
+        board = new Piece[8][8]; // Initialize the board with 8x8 size
         moveHistory = new ArrayList<>();
         moveRecords = new Stack<>();
         initializeBoard(); // Set up the initial chess pieces
     }
-
+    
     private void initializeBoard() {
         // Initialize pieces for both players
         // Example: Place pawns, rooks, knights, bishops, queen, and king
         for (int i = 0; i < 8; i++) {
-            Gameboard[1][i] = new Pawn(Player.PlayerColor.BLACK, i, 1); // White pawns
-            Gameboard[6][i] = new Pawn(Player.PlayerColor.WHITE, i, 6); // Black pawns
+            board[1][i] = new Pawn(Player.PlayerColor.BLACK, i, 1); // White pawns
+            board[6][i] = new Pawn(Player.PlayerColor.WHITE, i, 6); // Black pawns
         }
-        Gameboard[0][0] = new Rook(Player.PlayerColor.BLACK, 0, 0);
-        Gameboard[0][1] = new Knight(Player.PlayerColor.BLACK, 1, 0);
-        Gameboard[0][2] = new Bishop(Player.PlayerColor.BLACK, 2, 0);
-        Gameboard[0][3] = new Queen(Player.PlayerColor.BLACK, 3, 0);
+        board[0][0] = new Rook(Player.PlayerColor.BLACK, 0, 0);
+        board[0][1] = new Knight(Player.PlayerColor.BLACK, 1, 0);
+        board[0][2] = new Bishop(Player.PlayerColor.BLACK, 2, 0);
+        board[0][3] = new Queen(Player.PlayerColor.BLACK, 3, 0);
         King blackKing = new King(Player.PlayerColor.BLACK, 4, 0);
-        Gameboard[0][4] = blackKing;
-        Gameboard[0][5] = new Bishop(Player.PlayerColor.BLACK, 5, 0);
-        Gameboard[0][6] = new Knight(Player.PlayerColor.BLACK, 6, 0);
-        Gameboard[0][7] = new Rook(Player.PlayerColor.BLACK, 7, 0);
+        board[0][4] = blackKing;
+        board[0][5] = new Bishop(Player.PlayerColor.BLACK, 5, 0);
+        board[0][6] = new Knight(Player.PlayerColor.BLACK, 6, 0);
+        board[0][7] = new Rook(Player.PlayerColor.BLACK, 7, 0);
 
-        Gameboard[7][0] = new Rook(Player.PlayerColor.WHITE, 0, 7);
-        Gameboard[7][1] = new Knight(Player.PlayerColor.WHITE, 1, 7);
-        Gameboard[7][2] = new Bishop(Player.PlayerColor.WHITE, 2, 7);
+        board[7][0] = new Rook(Player.PlayerColor.WHITE, 0, 7);
+        board[7][1] = new Knight(Player.PlayerColor.WHITE, 1, 7);
+        board[7][2] = new Bishop(Player.PlayerColor.WHITE, 2, 7);
         King whiteKing = new King(Player.PlayerColor.WHITE, 3, 7);
-        Gameboard[7][3] = whiteKing;
-        Gameboard[7][4] = new Queen(Player.PlayerColor.WHITE, 4, 7);
-        Gameboard[7][5] = new Bishop(Player.PlayerColor.WHITE, 5, 7);
-        Gameboard[7][6] = new Knight(Player.PlayerColor.WHITE, 6, 7);
-        Gameboard[7][7] = new Rook(Player.PlayerColor.WHITE, 7, 7);
+        board[7][3] = whiteKing;
+        board[7][4] = new Queen(Player.PlayerColor.WHITE, 4, 7);
+        board[7][5] = new Bishop(Player.PlayerColor.WHITE, 5, 7);
+        board[7][6] = new Knight(Player.PlayerColor.WHITE, 6, 7);
+        board[7][7] = new Rook(Player.PlayerColor.WHITE, 7, 7);
 
     }
-
+    
+    /**
+     * Retrieves the piece at the specified position.
+     * 
+     * @param row The row (0-7, 0 is top)
+     * @param col The column (0-7, 0 is left)
+     * @return The piece at the position or null if empty
+     */
     public Piece getPiece(int row, int col) {
         if (row < 0 || row >= 8 || col < 0 || col >= 8) {
             return null; // Out of bounds
         }
-        return Gameboard[row][col];
+        return board[row][col];
     }
-
+    
+    /**
+     * Places a piece at the specified position.
+     * 
+     * @param row The row (0-7)
+     * @param col The column (0-7)
+     * @param piece The piece to place (null to clear the square)
+     */
     public void setPiece(int row, int col, Piece piece) {
         if (row < 0 || row >= 8 || col < 0 || col >= 8) {
             return; // Out of bounds
         }
-        Gameboard[row][col] = piece; // Place the piece on the board
+        board[row][col] = piece; // Place the piece on the board
     }
-
+    
+    /**
+     * Prints the current state of the board to the console.
+     * Displays ranks 8-1 and files a-h, with move history beside the board.
+     */
     public void printBoard() {
         System.out.println("  +---+---+---+---+---+---+---+---+     Move History");
 
         for (int i = 0; i < 8; i++) {
-            int row = flip ? 7 - i : i;
+            int row = isFlipped ? 7 - i : i;
             System.out.print((8 - i) + " ");
 
             for (int j = 0; j < 8; j++) {
-                int col = flip ? 7 - j : j;
+                int col = isFlipped ? 7 - j : j;
                 System.out.print("| ");
-                Piece piece = Gameboard[row][col];
+                Piece piece = board[row][col];
                 if (piece != null) {
                     System.out.print(piece.getSymbol());
                 } else {
@@ -132,36 +153,62 @@ public class Board {
         // Print column labels correctly based on board orientation
         System.out.print("    ");
         for (int j = 0; j < 8; j++) {
-            int col = flip ? 7 - j : j;
+            int col = isFlipped ? 7 - j : j;
             System.out.print((char) ('a' + col) + "   ");
         }
         System.out.println();
     }
-
+    
+    /**
+     * Returns a copy of the game board array.
+     * 
+     * @return 2D array representing the game board
+     */
     public Piece[][] getGameboard() {
-        return Gameboard; // Return the current state of the board
+        return board; // Return the current state of the board
     }
-
+    
+    /**
+     * Resets the board to the initial position.
+     */
     public void resetBoard() {
-        Gameboard = new Piece[8][8]; // Reset the board to an empty state
+        board = new Piece[8][8]; // Reset the board to an empty state
         initializeBoard(); // Reinitialize with default pieces
     }
-
+    
+    /**
+     * Checks if coordinates are within board bounds.
+     * 
+     * @param row The row to check
+     * @param col The column to check
+     * @return true if the coordinates are within the board
+     */
     public boolean isInBounds(int row, int col) {
         return row >= 0 && row < 8 && col >= 0 && col < 8; // Check if the position is within the board limits
     }
-
+    
+    /**
+     * Checks if a square is occupied by any piece.
+     * 
+     * @param row The row to check
+     * @param col The column to check
+     * @return true if the square contains a piece
+     */
     public boolean isSquareOccupied(int row, int col) {
-        return isInBounds(row, col) && Gameboard[row][col] != null; // Check if the square is occupied by a piece
+        return isInBounds(row, col) && board[row][col] != null; // Check if the square is occupied by a piece
     }
-
-    //Before every move, is made this will check the board to see if the move is valid
-    //It will go through the board and see if either player is in check
+    
+    /**
+     * Checks if a player's king is in check.
+     * 
+     * @param color The color of the king to check
+     * @return true if the king is in check
+     */
     public boolean isChecked(Player.PlayerColor color) {
         // Check if the specified player is in check
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                Piece piece = Gameboard[row][col];
+                Piece piece = board[row][col];
                 if (piece != null && piece.getColor() == color) {
                     // Check if the piece can be attacked by any opponent's piece
                     if (isUnderAttack(piece)) {
@@ -172,7 +219,7 @@ public class Board {
         }
         return false; // Player is not in check
     }
-
+    
     /**
      * Checks if the given piece is under attack by any opponent's piece.
      * This method finds all pieces of the opposite color and checks if any of them
@@ -189,7 +236,7 @@ public class Board {
         int targetCol = piece.getX();
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                Piece attacker = Gameboard[row][col];
+                Piece attacker = board[row][col];
                 // Check if this is an opponent's piece and if it can move to the target square
                 if (attacker != null && attacker.getColor() == opponentColor) {
                     if (attacker.isValidMove(targetCol, targetRow, this)) {
@@ -200,35 +247,51 @@ public class Board {
         }
         return false;
     }
-
-    //This allows for other classes to see whether the board is fliped or not.
-    public boolean getFlip()
-    {
-        return flip;
+    
+    /**
+     * Returns whether the board is currently flipped.
+     * 
+     * @return true if board view is flipped (black at bottom)
+     */
+    public boolean getFlip() {
+        return isFlipped;
     }
-
-    //This allows for other classes to flip the board.
-    public void flipped()
-    {
-        flip = !flip;
+    
+    /**
+     * Flips the board orientation.
+     * Toggles between white at bottom and black at bottom views.
+     */
+    public void flipped() {
+        isFlipped = !isFlipped;
     }
-
-    // New method to set the board orientation based on current player
+    
+    /**
+     * Sets the board orientation appropriate for the current player.
+     * 
+     * @param currentPlayerColor The color of the current player
+     */
     public void setOrientationForPlayer(Player.PlayerColor currentPlayerColor) {
         // If white is playing, don't flip (white at bottom)
         // If black is playing, flip (black at bottom)
         boolean shouldBeFlipped = (currentPlayerColor == Player.PlayerColor.BLACK);
         
         // Only flip if we need to change orientation
-        if (shouldBeFlipped != flip) {
+        if (shouldBeFlipped != isFlipped) {
             flipped();
         }
     }
-
+    
+    /**
+     * Checks if there is still a king of the specified color on the board.
+     * Used to detect checkmate/game end.
+     * 
+     * @param color The color of the king to check for
+     * @return true if the king is still on the board
+     */
     public boolean hasKing(Player.PlayerColor color) {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                Piece piece = Gameboard[row][col];
+                Piece piece = board[row][col];
                 if (piece != null && piece.getColor() == color && piece instanceof King) {
                     return true;
                 }
@@ -236,27 +299,47 @@ public class Board {
         }
         return false;
     }
-
-    // Get the en passant target square
+    
+    /**
+     * Gets the current en passant target square.
+     * 
+     * @return int array with [row, column] or null if no target
+     */
     public int[] getEnPassantTarget() {
         if (enPassantTargetRow == -1 || enPassantTargetCol == -1) {
             return null;
         }
         return new int[] {enPassantTargetRow, enPassantTargetCol};
     }
-
-    // Reset en passant target
+    
+    /**
+     * Resets the en passant target.
+     * Called after each move except when a pawn moves two squares.
+     */
     public void resetEnPassantTarget() {
         enPassantTargetRow = -1;
         enPassantTargetCol = -1;
     }
-
-    // Get move history
+    
+    /**
+     * Gets the list of moves made in the game so far.
+     * 
+     * @return ArrayList containing the move history in algebraic notation
+     */
     public ArrayList<String> getMoveHistory() {
         return moveHistory;
     }
-
-    // Method to move a piece with en passant handling
+    
+    /**
+     * Moves a piece from one position to another.
+     * Handles en passant captures and updates move history.
+     * 
+     * @param fromRow Source row
+     * @param fromCol Source column
+     * @param toRow Target row
+     * @param toCol Target column
+     * @return true if move was successful
+     */
     public boolean movePiece(int fromRow, int fromCol, int toRow, int toCol) {
         Piece piece = getPiece(fromRow, fromCol);
         if (piece == null) {
@@ -316,7 +399,7 @@ public class Board {
 
         return true;
     }
-
+    
     // Generate algebraic notation for a move
     private String generateMoveNotation(Piece piece, int fromRow, int fromCol, int toRow, int toCol, boolean isCapture) {
         StringBuilder notation = new StringBuilder();
@@ -343,8 +426,12 @@ public class Board {
 
         return notation.toString();
     }
-
-    // Undo the last move
+    
+    /**
+     * Undoes the last move, restoring the previous board state.
+     * 
+     * @return true if a move was successfully undone, false if no moves to undo
+     */
     public boolean undoMove() {
         if (moveRecords.isEmpty()) {
             return false;

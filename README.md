@@ -75,6 +75,49 @@ chessDisplay
     - Populates screen with images of chess pieces and moves according to player
 Main Class starts chess Display
 
+# Chess Game
+
+A command-line chess game implementation.
+
+## Prerequisites
+
+- Java Development Kit (JDK) 17 or later
+- Bash terminal (Git Bash works for Windows)
+
+## Running the Game
+
+You can run the chess game using one of the following methods:
+
+### Using the Shell Script
+
+```bash
+# Make the script executable (first time only)
+chmod +x run-chess.sh
+
+# Run the script
+./run-chess.sh
+```
+
+### Using Gradle Directly
+
+```bash
+# Make the gradlew script executable (first time only)
+chmod +x gradlew
+
+# Run the chess game
+./gradlew runChess
+```
+
+## Game Instructions
+
+- Enter 'sandbox' or 'AI' to select your game mode
+- Enter algebraic notation (e.g., e2e4) to move a piece
+- Type a position (e.g., e2) to see possible moves
+- Type 'undo' to undo your last move
+- Type 'flip' to flip the board orientation
+- Type 'autoflip' to toggle automatic board orientation
+- Type 'exit' to quit the game
+
 
 
 

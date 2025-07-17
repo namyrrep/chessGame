@@ -1,16 +1,25 @@
 import java.util.ArrayList;
-/*
- * This is the Pawn class that stores all information about the Pawn Piece.
+
+/**
+ * Represents a pawn chess piece.
+ * Implements pawn-specific movement including forward movement, diagonal captures,
+ * initial double move, and en passant capture.
  */
 public class Pawn extends Piece {
     private boolean firstMove;
     private boolean secondMove;
 
-    //This is the constructor for the Pawn class.
-    public Pawn(Player.PlayerColor pieceColor, int x, int y) {
+    /**
+     * Creates a new pawn at the specified position with the specified color.
+     * 
+     * @param pieceColor The color of the pawn (WHITE or BLACK)
+     * @param pieceX The initial x-coordinate (column)
+     * @param pieceY The initial y-coordinate (row)
+     */
+    public Pawn(Player.PlayerColor pieceColor, int pieceX, int pieceY) {
         this.setColor(pieceColor);
-        this.setX(x);
-        this.setY(y);
+        this.setX(pieceX);
+        this.setY(pieceY);
         firstMove = true;
         secondMove = false;
     }
@@ -85,12 +94,21 @@ public class Pawn extends Piece {
         return secondMove;
     }
 
-    //This is the setter method for firstMove.
+    /**
+     * Sets whether this pawn has moved from its starting position.
+     * 
+     * @param value true if the pawn has moved, false otherwise
+     */
     public void setFirstMove(boolean value) {
         firstMove = value;
     }
 
-    //This is the setter method for secondMove.
+    /**
+     * Sets whether this is the pawn's second move.
+     * Used for tracking en passant eligibility.
+     * 
+     * @param value true if this is the pawn's second move
+     */
     public void setSecondMove(boolean value) {
         secondMove = value;
     }

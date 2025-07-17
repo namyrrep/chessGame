@@ -1,9 +1,18 @@
 import java.util.ArrayList;
-/*
- * This is the Knight class that stores all information about the Knight Piece.
+
+/**
+ * Represents a knight chess piece.
+ * Implements knight-specific L-shaped movement.
  */
 public class Knight extends Piece {
-    //This is the constructor for the Knight class.
+    
+    /**
+     * Creates a new knight at the specified position with the specified color.
+     * 
+     * @param pieceColor The color of the knight (WHITE or BLACK)
+     * @param x The initial x-coordinate (column)
+     * @param y The initial y-coordinate (row)
+     */
     public Knight(Player.PlayerColor pieceColor, int x, int y) {
         this.setColor(pieceColor);
         this.setX(x);
