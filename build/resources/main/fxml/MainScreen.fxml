@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="MainScreenController"
+      prefHeight="400.0" prefWidth="600.0"
+      alignment="CENTER" spacing="20">
+    
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    
+    <Label text="Chess Game" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    
+    <HBox alignment="CENTER" spacing="20">
+        <Button fx:id="newGameButton" text="New Game" onAction="#handleNewGame"/>
+        <Button fx:id="terminalButton" text="Play in Terminal" onAction="#handleTerminal"/>
+        <Button fx:id="exitButton" text="Exit" onAction="#handleExit"/>
+    </HBox>
+    
+    <VBox alignment="CENTER" spacing="10">
+        <Label text="Game Mode" style="-fx-font-weight: bold;"/>
+        <RadioButton fx:id="sandboxRadio" text="Sandbox Mode (Two Players)" selected="true">
+            <toggleGroup>
+                <ToggleGroup fx:id="gameModeGroup"/>
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton fx:id="aiRadio" text="Play vs AI" toggleGroup="$gameModeGroup"/>
+    </VBox>
+</VBox>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ChessBoardController"
+            prefHeight="700.0" prefWidth="900.0">
+    
+    <top>
+        <HBox alignment="CENTER" spacing="10" padding="10">
+            <Label fx:id="statusLabel" text="White's Turn" style="-fx-font-size: 18px;"/>
+        </HBox>
+    </top>
+    
+    <center>
+        <GridPane fx:id="boardGrid" alignment="CENTER" gridLinesVisible="true">
+            <!-- The chess board squares will be created programmatically -->
+        </GridPane>
+    </center>
+    
+    <right>
+        <VBox spacing="10" alignment="TOP_CENTER" prefWidth="200" style="-fx-background-color: #f0f0f0;">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <Label text="Move History" style="-fx-font-weight: bold;"/>
+            <ScrollPane prefHeight="400">
+                <TextArea fx:id="moveHistoryText" editable="false" wrapText="true"/>
+            </ScrollPane>
+            
+            <HBox spacing="10" alignment="CENTER">
+                <Button fx:id="undoButton" text="Undo Move" onAction="#handleUndo"/>
+                <Button fx:id="flipBoardButton" text="Flip Board" onAction="#handleFlipBoard"/>
+            </HBox>
+            
+            <CheckBox fx:id="autoFlipCheckbox" text="Auto-Flip Board" selected="true"/>
+            
+            <Button fx:id="exitGameButton" text="Exit Game" onAction="#handleExitGame"/>
+        </VBox>
+    </right>
+    
+    <bottom>
+        <HBox alignment="CENTER" spacing="10" padding="10">
+            <Label fx:id="messageLabel" text=""/>
+        </HBox>
+    </bottom>
+</BorderPane>

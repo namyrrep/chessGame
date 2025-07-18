@@ -1,0 +1,15 @@
+initscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.openjfx:javafx-plugin:0.0.13'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
