@@ -10,20 +10,26 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Thank you for playing Edwin Barrack and William Perryman's Chess game.");
-        System.out.println("Please select a mode to start:");
-        System.out.println("1. sandbox - Two players at the same location, switching turns.");
-        System.out.println("2. AI      - Play against an AI of random strength (not yet implemented).");
+        System.out.println("╔═══════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                           CHESS GAME                             ║");
+        System.out.println("║              by Edwin Barrack and William Perryman               ║");
+        System.out.println("╚═══════════════════════════════════════════════════════════════════╝");
+        System.out.println();
+        System.out.println("Please select a game mode:");
+        System.out.println("┌─────────────────────────────────────────────────────────────────┐");
+        System.out.println("│ 1. SANDBOX - Two players, local multiplayer                    │");
+        System.out.println("│ 2. AI      - Play against computer opponent                    │");
+        System.out.println("└─────────────────────────────────────────────────────────────────┘");
 
         Scanner scanner = new Scanner(System.in);
         String mode = "";
         while (true) {
-            System.out.print("Enter 'sandbox' or 'AI': ");
+            System.out.print("\n» Enter 'sandbox' or 'AI': ");
             mode = scanner.nextLine().trim().toLowerCase();
             if (mode.equals("sandbox") || mode.equals("ai")) {
                 break;
             }
-            System.out.println("Invalid option. Please enter 'sandbox' or 'AI'.");
+            System.out.println("✗ Invalid option. Please enter 'sandbox' or 'AI'.");
         }
 
         if (mode.equals("ai")) {
@@ -44,63 +50,80 @@ public class Main {
         }
 
         while (true) {
+            System.out.println("\n" + "═".repeat(70));
             controller.getBoard().printBoard();
+            System.out.println("═".repeat(70));
+            
             Player current = controller.getCurrentPlayer();
-            System.out.println(current.getName() + "'s turn (" + current.getColor() + ")");
+            System.out.println("🎯 " + current.getName() + "'s turn (" + current.getColor() + ")");
 
             if (vsAI && current.getColor() == Player.PlayerColor.BLACK) {
                 // AI's turn
+                System.out.println("🤖 AI is thinking...");
                 int[] move = ai.chooseMove(controller.getBoard());
                 if (move == null) {
-                    System.out.println("AI has no legal moves. Game over.");
+                    System.out.println("🏁 AI has no legal moves. Game over.");
                     break;
                 }
-                System.out.println("AI moves from " + (char)('a' + move[1]) + (8 - move[0]) +
-                                   " to " + (char)('a' + move[3]) + (8 - move[2]));
-                controller.makeMove(move[0], move[1], move[2], move[3]);
+                System.out.println("🤖 AI moves: " + (char)('a' + move[1]) + (8 - move[0]) +
+                                   " → " + (char)('a' + move[3]) + (8 - move[2]));
+                
+                // Execute AI move
+                if (!controller.makeMove(move[0], move[1], move[2], move[3])) {
+                    System.out.println("AI attempted invalid move. Game error.");
+                    break;
+                }
             } else {
-                // Human's turn
-                String input = "";
-                boolean helper = true;
-                while (helper)
-                {
-                    System.out.print("Enter your move (e.g., e2e4), get possible moves (e.g., e2), 'flip', or 'exit': ");
-                    input = scanner.nextLine().trim();
+                // Human player's turn
+                System.out.println("📝 Enter move (e.g., 'e2e4'), 'flip' to flip board, 'exit' to quit:");
+                System.out.println("💡 Or enter piece position (e.g., 'e2') to see possible moves");
+                System.out.print("» ");
+                String input = scanner.nextLine().trim();
 
-                    if (input.equalsIgnoreCase("flip")) 
-                    {
-                        controller.getBoard().flipped();
-                        System.out.println("Board has been flipped.");
-                        //printBoard() acts defirently when flipped.
-                        controller.getBoard().printBoard();
-                        continue;
-                    }
-
-                    if (input.length() != 2)
-                    {
-                        break;
-                    }
-
-                    int possibleCol = input.charAt(0) - 'a';
-                    int possibleRow = 8 - (input.charAt(1) - '0');
-
-                    ArrayList<String> possibleMoves = controller.getBoard().getPiece(possibleRow, possibleCol).possibleMove(controller.getBoard());
-
-                    if (possibleMoves.isEmpty())
-                    {
-                        System.out.println("No possible moves.");
-                        continue;
-                    }
-
-                    for (int i = 0; i < possibleMoves.size(); i++)
-                    {
-                        System.out.println("" + possibleMoves.get(i));
-                    }
+                if (input.equalsIgnoreCase("flip")) {
+                    controller.getBoard().flipped();
+                    System.out.println("Board has been flipped.");
+                    continue;
                 }
 
                 if (input.equalsIgnoreCase("exit")) {
                     System.out.println("Game exited.");
                     break;
+                }
+
+                if (input.length() == 2) {
+                    // Show possible moves for a piece
+                    int possibleCol = input.charAt(0) - 'a';
+                    int possibleRow = 8 - (input.charAt(1) - '0');
+
+                    if (!controller.getBoard().isInBounds(possibleRow, possibleCol)) {
+                        System.out.println("Invalid position.");
+                        continue;
+                    }
+
+                    Piece piece = controller.getBoard().getPiece(possibleRow, possibleCol);
+                    if (piece == null) {
+                        System.out.println("No piece at that position.");
+                        continue;
+                    }
+
+                    if (piece.getColor() != current.getColor()) {
+                        System.out.println("That's not your piece.");
+                        continue;
+                    }
+
+                    ArrayList<String> possibleMoves = piece.possibleMove(controller.getBoard());
+
+                    if (possibleMoves.isEmpty()) {
+                        System.out.println("No possible moves.");
+                        continue;
+                    }
+
+                    System.out.println("Possible moves:");
+                    for (String move : possibleMoves) {
+                        System.out.println("  " + move);
+                    }
+                    continue;
                 }
 
                 if (input.length() != 4) {

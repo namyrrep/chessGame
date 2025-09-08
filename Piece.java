@@ -59,29 +59,27 @@ public class Piece
         int changingX = x;
         int changingY = y;
 
-        while((changingX > 0 && changingX > changingX - maxDistance) && (changingY > 0 && changingY > changingY - maxDistance))
-        {
-            //This will not affect the outside variables
-            changingX--;
-            changingY--;
+        for (int i = 1; i <= maxDistance; i++) {
+            changingX = x - i;
+            changingY = y - i;
+            
+            if (changingX < 0 || changingY < 0) break;
+            
             //Runs isChecked() in case the King is already in check,
             //or if the current move would put the King in check. 
-            if (board.isChecked(color))
-            {
+            if (board.isChecked(color)) {
                 continue;
             }
 
             Piece checkPiece = board.getPiece(changingY, changingX);
             
             //If there is nothing at position
-            if (checkPiece == null)
-            {
+            if (checkPiece == null) {
                 possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + (char)('a' + changingX) + (char)('8' - changingY));
                 continue;
             }
             //Checks if the Piece at position is the same color.
-            else if (checkPiece.getColor() == this.getColor())
-            {
+            else if (checkPiece.getColor() == this.getColor()) {
                 break;
             }
             //If the Piece at position is the opposite color.
@@ -94,36 +92,29 @@ public class Piece
     //Adds possible moves in the up and right direction to the possibleMoves ArrayList.
     public ArrayList<String> upRight(ArrayList<String> currentMoves, int maxDistance, int x, int y, Board board)
     {
-        //Sets the return List to the parameterized list, 
-        //this allows me to add arrays to list outside the method. 
         ArrayList<String> possibleMoves = currentMoves;
         int changingX = x;
         int changingY = y;
 
-        while((changingX < 7 && changingX < changingX + maxDistance) && (changingY > 0 && changingY > changingY - maxDistance))
-        {
-            //This will not affect the outside variables
-            changingX++;
-            changingY--;
-            if (board.isChecked(color))
-            {
+        for (int i = 1; i <= maxDistance; i++) {
+            changingX = x + i;
+            changingY = y - i;
+            
+            if (changingX > 7 || changingY < 0) break;
+            
+            if (board.isChecked(color)) {
                 continue;
             }
 
             Piece checkPiece = board.getPiece(changingY, changingX);
             
-            //If there is nothing at position
-            if (checkPiece == null)
-            {
+            if (checkPiece == null) {
                 possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + (char)('a' + changingX) + (char)('8' - changingY));
                 continue;
             }
-            //Checks if the Piece at position is the same color.
-            else if (checkPiece.getColor() == this.getColor())
-            {
+            else if (checkPiece.getColor() == this.getColor()) {
                 break;
             }
-            //If the Piece at position is the oposite color.
             possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + 'x' + (char)('a' + changingX) + (char)('8' - changingY));
             break;
         }
@@ -133,36 +124,29 @@ public class Piece
     //Adds possible moves in the down and right direction to the possibleMoves ArrayList.
     public ArrayList<String> downRight(ArrayList<String> currentMoves, int maxDistance, int x, int y, Board board)
     {
-        //Sets the return List to the parameterized list, 
-        //this allows me to add arrays to list outside the method. 
         ArrayList<String> possibleMoves = currentMoves;
         int changingX = x;
         int changingY = y;
 
-        while((changingX < 7 && changingX < changingX + maxDistance) && (changingY < 7 && changingY < changingY + maxDistance))
-        {
-            //This will not affect the outside variables
-            changingX++;
-            changingY++;
-            if (board.isChecked(color))
-            {
+        for (int i = 1; i <= maxDistance; i++) {
+            changingX = x + i;
+            changingY = y + i;
+            
+            if (changingX > 7 || changingY > 7) break;
+            
+            if (board.isChecked(color)) {
                 continue;
             }
 
             Piece checkPiece = board.getPiece(changingY, changingX);
             
-            //If there is nothing at position
-            if (checkPiece == null)
-            {
+            if (checkPiece == null) {
                 possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + (char)('a' + changingX) + (char)('8' - changingY));
                 continue;
             }
-            //Checks if the Piece at position is the same color.
-            else if (checkPiece.getColor() == this.getColor())
-            {
+            else if (checkPiece.getColor() == this.getColor()) {
                 break;
             }
-            //If the Piece at position is the oposite color.
             possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + 'x' + (char)('a' + changingX) + (char)('8' - changingY));
             break;
         }
@@ -172,36 +156,29 @@ public class Piece
     //Adds possible moves in the down and left direction to the possibleMoves ArrayList.
     public ArrayList<String> downLeft(ArrayList<String> currentMoves, int maxDistance, int x, int y, Board board)
     {
-        //Sets the return List to the parameterized list, 
-        //this allows me to add arrays to list outside the method. 
         ArrayList<String> possibleMoves = currentMoves;
         int changingX = x;
         int changingY = y;
 
-        while((changingX > 0 && changingX > changingX - maxDistance) && (changingY < 7 && changingY < changingY + maxDistance))
-        {
-            //This will not affect the outside variables
-            changingX--;
-            changingY++;
-            if (board.isChecked(color))
-            {
+        for (int i = 1; i <= maxDistance; i++) {
+            changingX = x - i;
+            changingY = y + i;
+            
+            if (changingX < 0 || changingY > 7) break;
+            
+            if (board.isChecked(color)) {
                 continue;
             }
 
             Piece checkPiece = board.getPiece(changingY, changingX);
             
-            //If there is nothing at position
-            if (checkPiece == null)
-            {
+            if (checkPiece == null) {
                 possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + (char)('a' + changingX) + (char)('8' - changingY));
                 continue;
             }
-            //Checks if the Piece at position is the same color.
-            else if (checkPiece.getColor() == this.getColor())
-            {
+            else if (checkPiece.getColor() == this.getColor()) {
                 break;
             }
-            //If the Piece at position is the oposite color.
             possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + 'x' + (char)('a' + changingX) + (char)('8' - changingY));
             break;
         }
@@ -211,34 +188,26 @@ public class Piece
     //Adds possible moves in the left direction to the possibleMoves ArrayList.
     public ArrayList<String> left(ArrayList<String> currentMoves, int maxDistance, Board board)
     {
-        //Sets the return List to the parameterized list, 
-        //this allows me to add arrays to list outside the method. 
         ArrayList<String> possibleMoves = currentMoves;
-        int changingX = xCoordinate;
 
-        while(changingX > 0 && changingX > changingX - maxDistance)
-        {
-            //This will not affect the outside variables
-            changingX--;
-            if (board.isChecked(color))
-            {
+        for (int i = 1; i <= maxDistance; i++) {
+            int changingX = xCoordinate - i;
+            
+            if (changingX < 0) break;
+            
+            if (board.isChecked(color)) {
                 continue;
             }
 
             Piece checkPiece = board.getPiece(yCoordinate, changingX);
             
-            //If there is nothing at position
-            if (checkPiece == null)
-            {
+            if (checkPiece == null) {
                 possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + (char)('a' + changingX) + (char)('8' - yCoordinate));
                 continue;
             }
-            //Checks if the Piece at position is the same color.
-            else if (checkPiece.getColor() == this.getColor())
-            {
+            else if (checkPiece.getColor() == this.getColor()) {
                 break;
             }
-            //If the Piece at position is the oposite color.
             possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + 'x' + (char)('a' + changingX) + (char)('8' - yCoordinate));
             break;
         }
@@ -248,34 +217,26 @@ public class Piece
     //Adds possible moves in the right direction to the possibleMoves ArrayList.
     public ArrayList<String> right(ArrayList<String> currentMoves, int maxDistance, Board board)
     {
-        //Sets the return List to the parameterized list, 
-        //this allows me to add arrays to list outside the method. 
         ArrayList<String> possibleMoves = currentMoves;
-        int changingX = xCoordinate;
 
-        while(changingX < 7 && changingX < changingX + maxDistance)
-        {
-            //This will not affect the outside variables
-            changingX++;
-            if (board.isChecked(color))
-            {
+        for (int i = 1; i <= maxDistance; i++) {
+            int changingX = xCoordinate + i;
+            
+            if (changingX > 7) break;
+            
+            if (board.isChecked(color)) {
                 continue;
             }
 
             Piece checkPiece = board.getPiece(yCoordinate, changingX);
             
-            //If there is nothing at position
-            if (checkPiece == null)
-            {
+            if (checkPiece == null) {
                 possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + (char)('a' + changingX) + (char)('8' - yCoordinate));
                 continue;
             }
-            //Checks if the Piece at position is the same color.
-            else if (checkPiece.getColor() == this.getColor())
-            {
+            else if (checkPiece.getColor() == this.getColor()) {
                 break;
             }
-            //If the Piece at position is the oposite color.
             possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + 'x' + (char)('a' + changingX) + (char)('8' - yCoordinate));
             break;
         }
@@ -285,34 +246,26 @@ public class Piece
     //Adds possible moves in the up direction to the possibleMoves ArrayList.
     public ArrayList<String> up(ArrayList<String> currentMoves, int maxDistance, Board board)
     {
-        //Sets the return List to the parameterized list, 
-        //this allows me to add arrays to list outside the method. 
         ArrayList<String> possibleMoves = currentMoves;
-        int changingY = yCoordinate;
 
-        while(changingY > 0 && changingY > changingY - maxDistance)
-        {
-            //This will not affect the outside variables
-            changingY--;
-            if (board.isChecked(color))
-            {
+        for (int i = 1; i <= maxDistance; i++) {
+            int changingY = yCoordinate - i;
+            
+            if (changingY < 0) break;
+            
+            if (board.isChecked(color)) {
                 continue;
             }
 
             Piece checkPiece = board.getPiece(changingY, xCoordinate);
             
-            //If there is nothing at position
-            if (checkPiece == null)
-            {
+            if (checkPiece == null) {
                 possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + (char)('a' + xCoordinate) + (char)('8' - changingY));
                 continue;
             }
-            //Checks if the Piece at position is the same color.
-            else if (checkPiece.getColor() == this.getColor())
-            {
+            else if (checkPiece.getColor() == this.getColor()) {
                 break;
             }
-            //If the Piece at position is the oposite color.
             possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + 'x' + (char)('a' + xCoordinate) + (char)('8' - changingY));
             break;
         }
@@ -322,34 +275,26 @@ public class Piece
     //Adds possible moves in the down direction to the possibleMoves ArrayList.
     public ArrayList<String> down(ArrayList<String> currentMoves, int maxDistance, Board board)
     {
-        //Sets the return List to the parameterized list, 
-        //this allows me to add arrays to list outside the method. 
         ArrayList<String> possibleMoves = currentMoves;
-        int changingY = yCoordinate;
 
-        while(changingY < 7 && changingY < changingY + maxDistance)
-        {
-            //This will not affect the outside variables
-            changingY++;
-            if (board.isChecked(color))
-            {
+        for (int i = 1; i <= maxDistance; i++) {
+            int changingY = yCoordinate + i;
+            
+            if (changingY > 7) break;
+            
+            if (board.isChecked(color)) {
                 continue;
             }
 
             Piece checkPiece = board.getPiece(changingY, xCoordinate);
             
-            //If there is nothing at position
-            if (checkPiece == null)
-            {
+            if (checkPiece == null) {
                 possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + (char)('a' + xCoordinate) + (char)('8' - changingY));
                 continue;
             }
-            //Checks if the Piece at position is the same color.
-            else if (checkPiece.getColor() == this.getColor())
-            {
+            else if (checkPiece.getColor() == this.getColor()) {
                 break;
             }
-            //If the Piece at position is the oposite color.
             possibleMoves.add("" + this.getSymbol() + (char)('a' + xCoordinate) + (char)('8' - yCoordinate) + 'x' + (char)('a' + xCoordinate) + (char)('8' - changingY));
             break;
         }
@@ -408,3 +353,4 @@ public class Piece
         return false;
     }
 }
+

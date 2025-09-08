@@ -20,29 +20,28 @@ public class Board {
         // Initialize pieces for both players
         // Example: Place pawns, rooks, knights, bishops, queen, and king
         for (int i = 0; i < 8; i++) {
-            Gameboard[1][i] = new Pawn(Player.PlayerColor.BLACK, i, 1); // White pawns
-            Gameboard[6][i] = new Pawn(Player.PlayerColor.WHITE, i, 6); // Black pawns
+            Gameboard[1][i] = new Pawn(Player.PlayerColor.BLACK, i, 1); // Black pawns
+            Gameboard[6][i] = new Pawn(Player.PlayerColor.WHITE, i, 6); // White pawns
         }
+        // Black pieces (row 0)
         Gameboard[0][0] = new Rook(Player.PlayerColor.BLACK, 0, 0);
         Gameboard[0][1] = new Knight(Player.PlayerColor.BLACK, 1, 0);
         Gameboard[0][2] = new Bishop(Player.PlayerColor.BLACK, 2, 0);
         Gameboard[0][3] = new Queen(Player.PlayerColor.BLACK, 3, 0);
-        King blackKing = new King(Player.PlayerColor.BLACK, 4, 0);
-        Gameboard[0][4] = blackKing;
+        Gameboard[0][4] = new King(Player.PlayerColor.BLACK, 4, 0);
         Gameboard[0][5] = new Bishop(Player.PlayerColor.BLACK, 5, 0);
         Gameboard[0][6] = new Knight(Player.PlayerColor.BLACK, 6, 0);
         Gameboard[0][7] = new Rook(Player.PlayerColor.BLACK, 7, 0);
 
+        // White pieces (row 7)
         Gameboard[7][0] = new Rook(Player.PlayerColor.WHITE, 0, 7);
         Gameboard[7][1] = new Knight(Player.PlayerColor.WHITE, 1, 7);
         Gameboard[7][2] = new Bishop(Player.PlayerColor.WHITE, 2, 7);
-        King whiteKing = new King(Player.PlayerColor.WHITE, 3, 7);
-        Gameboard[7][3] = whiteKing;
-        Gameboard[7][4] = new Queen(Player.PlayerColor.WHITE, 4, 7);
+        Gameboard[7][3] = new Queen(Player.PlayerColor.WHITE, 3, 7);
+        Gameboard[7][4] = new King(Player.PlayerColor.WHITE, 4, 7);
         Gameboard[7][5] = new Bishop(Player.PlayerColor.WHITE, 5, 7);
         Gameboard[7][6] = new Knight(Player.PlayerColor.WHITE, 6, 7);
         Gameboard[7][7] = new Rook(Player.PlayerColor.WHITE, 7, 7);
-
     }
     public Piece getPiece(int row, int col) {
         if (row < 0 || row >= 8 || col < 0 || col >= 8) {
@@ -57,61 +56,76 @@ public class Board {
         Gameboard[row][col] = piece; // Place the piece on the board
     }
     public void printBoard() {
-        if (flip)
-        {
+        if (flip) {
             // Show piece legend at the top
             System.out.println("White: K Q R N B P   Black: k q r n b p");
+            System.out.println("┌─────────────────────────────────────┐");
             // Print column labels at the top
-            System.out.print("  ");
+            System.out.print("│  ");
             for (char c = 'h'; c >= 'a'; c--) {
-                System.out.print(c + " ");
+                System.out.print(" " + c + " ");
             }
-            System.out.println();
+            System.out.println(" │");
+            System.out.println("├─────────────────────────────────────┤");
             for (int i = 7; i >= 0; i--) { // Print from row 7 (top) to row 0 (bottom)
-                System.out.print((8 - i) + " "); // Row label on the left
+                System.out.print("│" + (8 - i) + " "); // Row label on the left
                 for (int j = 7; j >= 0; j--) {
                     if (Gameboard[i][j] == null) {
-                        System.out.print(". "); // Empty square
+                        // Alternating background colors for better visibility
+                        if ((i + j) % 2 == 0) {
+                            System.out.print("░░░"); // Light squares
+                        } else {
+                            System.out.print("▓▓▓"); // Dark squares
+                        }
                     } else {
-                        System.out.print(Gameboard[i][j].getSymbol() + " "); // Piece symbol
+                        System.out.print(" " + Gameboard[i][j].getSymbol() + " "); // Piece symbol
                     }
                 }
-                System.out.println((8 - i)); // Row label on the right
+                System.out.println(" " + (8 - i) + "│"); // Row label on the right
             }
+            System.out.println("├─────────────────────────────────────┤");
             // Print column labels at the bottom
-            System.out.print("  ");
+            System.out.print("│  ");
             for (char c = 'h'; c >= 'a'; c--) {
-                System.out.print(c + " ");
+                System.out.print(" " + c + " ");
             }
-        }
-        else
-        {
+            System.out.println(" │");
+        } else {
             // Show piece legend at the top
             System.out.println("White: K Q R N B P   Black: k q r n b p");
+            System.out.println("┌─────────────────────────────────────┐");
             // Print column labels at the top
-            System.out.print("  ");
+            System.out.print("│  ");
             for (char c = 'a'; c <= 'h'; c++) {
-                System.out.print(c + " ");
+                System.out.print(" " + c + " ");
             }
-            System.out.println();
-            for (int i = 0; i < 8; i++) { // Print from row 7 (top) to row 0 (bottom)
-                System.out.print((8 - i) + " "); // Row label on the left
+            System.out.println(" │");
+            System.out.println("├─────────────────────────────────────┤");
+            for (int i = 0; i < 8; i++) { // Print from row 0 (top) to row 7 (bottom)
+                System.out.print("│" + (8 - i) + " "); // Row label on the left
                 for (int j = 0; j < 8; j++) {
                     if (Gameboard[i][j] == null) {
-                    System.out.print(". "); // Empty square
+                        // Alternating background colors for better visibility
+                        if ((i + j) % 2 == 0) {
+                            System.out.print("░░░"); // Light squares
+                        } else {
+                            System.out.print("▓▓▓"); // Dark squares
+                        }
                     } else {
-                    System.out.print(Gameboard[i][j].getSymbol() + " "); // Piece symbol
+                        System.out.print(" " + Gameboard[i][j].getSymbol() + " "); // Piece symbol
                     }
                 }
-                System.out.println((8 - i)); // Row label on the right
+                System.out.println(" " + (8 - i) + "│"); // Row label on the right
             }
+            System.out.println("├─────────────────────────────────────┤");
             // Print column labels at the bottom
-            System.out.print("  ");
+            System.out.print("│  ");
             for (char c = 'a'; c <= 'h'; c++) {
-                System.out.print(c + " ");
+                System.out.print(" " + c + " ");
             }
+            System.out.println(" │");
         }
-        System.out.println();
+        System.out.println("└─────────────────────────────────────┘");
     }
     public Piece[][] getGameboard() {
         return Gameboard; // Return the current state of the board
@@ -130,19 +144,24 @@ public class Board {
     //Before every move, is made this will check the board to see if the move is valid
     //It will go through the board and see if either player is in check
     public boolean isChecked(Player.PlayerColor color) {
-        // Check if the specified player is in check
+        // Find the king of the specified color
+        King king = null;
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 Piece piece = Gameboard[row][col];
-                if (piece != null && piece.getColor() == color) {
-                    // Check if the piece can be attacked by any opponent's piece
-                    if (isUnderAttack(piece)) {
-                        return true; // Player is in check
-                    }
+                if (piece != null && piece.getColor() == color && piece instanceof King) {
+                    king = (King) piece;
+                    break;
                 }
             }
         }
-        return false; // Player is not in check
+        
+        if (king == null) {
+            return false; // No king found (shouldn't happen in normal game)
+        }
+        
+        // Check if the king is under attack
+        return isUnderAttack(king);
     }
 
     /**

@@ -2,50 +2,41 @@ import java.util.ArrayList;
 /*
  * This is the Rook class that stores all information about the Rook Piece.
  */
-public class Rook extends Piece
-{
-    //This will be used to check if the castle option is a possible move.
+public class Rook extends Piece {
     boolean firstMove = true;
 
-    //This is the constructor for the Rook class. 
-    public Rook(Player.PlayerColor pieceColor, int x, int y)
-    {
+    //This is the constructor for the Rook class.
+    public Rook(Player.PlayerColor pieceColor, int x, int y) {
         this.setColor(pieceColor);
         this.setX(x);
         this.setY(y);
     }
 
-    //This is the getter method for firstMove
-    @Override
-    public boolean getFirstMove()
-    {
-        return firstMove;
-    }
-
-    //This is the setter method for firstMove.
-    public void setFirstMove(boolean newMove)
-    {
-        firstMove = newMove;
-    }
-
     //This is the overridden possibleMove method for the Rook class.
     @Override
-    public ArrayList<String> possibleMove(Board board)
-    {
-        ArrayList<String> possibleMoves = new ArrayList<>();
-
-        //Adds all possibleMoves for the Rook to the returned ArrayList<int[]>.
-        possibleMoves = left(possibleMoves, 7, board);
-        possibleMoves = right(possibleMoves, 7, board);
-        possibleMoves = up(possibleMoves, 7, board);
-        possibleMoves = down(possibleMoves, 7, board);
-
-        return possibleMoves;
+    public ArrayList<String> possibleMove(Board board) {
+        ArrayList<String> moves = new ArrayList<>();
+        moves = up(moves, 8, board);
+        moves = right(moves, 8, board);
+        moves = down(moves, 8, board);
+        moves = left(moves, 8, board);
+        return moves;
     }
 
     //This is the getSymbol method for the Rook subclass.
     @Override
     public char getSymbol() {
         return symbolForColor('R');
+    }
+
+    //This is the getter method for firstMove.
+    @Override
+    public boolean getFirstMove() {
+        return firstMove;
+    }
+
+    //This is the setter method for firstMove.
+    public void setFirstMove(boolean newMove) {
+        firstMove = newMove;
     }
 }
