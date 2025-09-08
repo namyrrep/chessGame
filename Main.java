@@ -11,14 +11,14 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         System.out.println("╔═══════════════════════════════════════════════════════════════════╗");
-        System.out.println("║                           CHESS GAME                             ║");
-        System.out.println("║              by Edwin Barrack and William Perryman               ║");
+        System.out.println("║                           CHESS GAME                              ║");
+        System.out.println("║              by Edwin Barrack and William Perryman                ║");
         System.out.println("╚═══════════════════════════════════════════════════════════════════╝");
         System.out.println();
         System.out.println("Please select a game mode:");
         System.out.println("┌─────────────────────────────────────────────────────────────────┐");
-        System.out.println("│ 1. SANDBOX - Two players, local multiplayer                    │");
-        System.out.println("│ 2. AI      - Play against computer opponent                    │");
+        System.out.println("│ 1. SANDBOX - Two players, local multiplayer                     │");
+        System.out.println("│ 2. AI      - Play against computer opponent                     │");
         System.out.println("└─────────────────────────────────────────────────────────────────┘");
 
         Scanner scanner = new Scanner(System.in);
